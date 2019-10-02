@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TringoLib
+namespace TringoLib.DataSructures
 {
-    public class Class1
+    class Sensor
     {
     }
 }
