@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TringoLib.DataSructures
+namespace TringoModel.DataSructures
 {
     public interface IMovement
     {
         /// <summary>
         /// Colection of all sensors
         /// </summary>
-        ICollection<ISensor> Sensors { get; }
+        IList<ISensor> Sensors { get; }
     }
 }

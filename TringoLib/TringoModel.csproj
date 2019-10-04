@@ -42,14 +42,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataProcessing\IDataProcessor.cs" />
-    <Compile Include="DataProcessing\Implementations\Mean\MeanProcessor.cs" />
-    <Compile Include="DataSructures\Implementations\Graph.cs" />
+    <Compile Include="DataProcessing\Mean\MeanGraph.cs" />
+    <Compile Include="DataProcessing\Mean\MeanMovement.cs" />
+    <Compile Include="DataProcessing\Mean\MeanSensor.cs" />
+    <Compile Include="DataProcessing\Normalization\NormalizedGraph.cs" />
+    <Compile Include="DataSructures\DataCache\CachedGraph.cs" />
     <Compile Include="DataSructures\IGraph.cs" />
     <Compile Include="DataSructures\IMovement.cs" />
     <Compile Include="DataSructures\ISensor.cs" />
     <Compile Include="DataSructures\ISetOfMovements.cs" />
-    <Compile Include="DataSructures\Implementations\Movement.cs" />
-    <Compile Include="DataSructures\Implementations\Sensor.cs" />
+    <Compile Include="DataSructures\Universal\GraphModifierDelegate.cs" />
+    <Compile Include="DataSructures\Universal\UniversalMovement.cs" />
+    <Compile Include="DataSructures\Universal\UniversalSensor.cs" />
     <Compile Include="DataView\IDataView.cs" />
     <Compile Include="LoadingData\ILoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

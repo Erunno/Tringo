@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TringoLib.DataSructures
+namespace TringoModel.DataSructures.Universal
 {
-    class Graph
-    {
-    }
+    public delegate IGraph GraphModifierDelegate(IGraph baseGraph);
 }

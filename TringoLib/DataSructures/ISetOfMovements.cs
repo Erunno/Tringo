@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TringoLib.DataSructures
+namespace TringoModel.DataSructures
 {
     public interface ISetOfMovements
     {
-        ICollection<IMovement> Movements { get; }
+        IList<IMovement> Movements { get; }
     }
 }

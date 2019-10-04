@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TringoLib.Results;
-using TringoLib.DataSructures;
+using TringoModel.Results;
+using TringoModel.DataSructures;
 
-namespace TringoLib.DataProcessing
+namespace TringoModel.DataProcessing
 {
     public interface IDataProcessor
     {

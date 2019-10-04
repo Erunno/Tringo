@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TringoLib.DataSructures
+namespace SimpleConsoleAnalyzer
 {
-    class Sensor
+    class Program
     {
+        static void Main(string[] args)
+        {
+        }
     }
 }

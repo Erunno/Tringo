@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TringoLib.DataView
+namespace TringoModel.DataView
 {
     public interface IDataView
     {

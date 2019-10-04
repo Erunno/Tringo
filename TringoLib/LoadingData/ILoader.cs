@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TringoLib.DataSructures;
+using TringoModel.DataSructures;
 
-namespace TringoLib.LoadingData
+namespace TringoModel.LoadingData
 {
     public interface ILoader
     {

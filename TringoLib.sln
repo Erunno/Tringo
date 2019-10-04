@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TringoLib", "TringoLib\TringoLib.csproj", "{5E9E7113-8582-4DEF-9F7D-F4629F9012FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TringoModel", "TringoLib\TringoModel.csproj", "{5E9E7113-8582-4DEF-9F7D-F4629F9012FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConsoleAnalyzer", "SimpleConsoleAnalyzer\SimpleConsoleAnalyzer.csproj", "{AB110809-4020-4C79-8233-4AADDDCF3829}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{5E9E7113-8582-4DEF-9F7D-F4629F9012FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E9E7113-8582-4DEF-9F7D-F4629F9012FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E9E7113-8582-4DEF-9F7D-F4629F9012FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB110809-4020-4C79-8233-4AADDDCF3829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB110809-4020-4C79-8233-4AADDDCF3829}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB110809-4020-4C79-8233-4AADDDCF3829}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB110809-4020-4C79-8233-4AADDDCF3829}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
