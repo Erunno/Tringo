@@ -16,7 +16,7 @@ namespace TringoModel.DataSructures
         double this[double time] { get; }
 
         /// <summary>
-        /// Length of graph
+        /// Length of graph in seconds
         /// </summary>
         double Length { get; }
     }

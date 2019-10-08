@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TringoModel.DataSructures.DataCache
 {
-    class CachedGraph : IGraph
+    public class CachedGraph : IGraph
     {
         /// <summary>
         /// Constructor of CachedGraph
@@ -18,7 +18,7 @@ namespace TringoModel.DataSructures.DataCache
             samplingFrequency = SamplingFrequency;
 
             int numberOfSamples = (int)(graph.Length * samplingFrequency);
-            samples = new double[numberOfSamples];
+            samples = new double[numberOfSamples + 1]; //one extra as protection againts indexOutOfRange in indexer
 
             Length = graph.Length;
 
@@ -29,8 +29,10 @@ namespace TringoModel.DataSructures.DataCache
         {
             double period = 1.0 / samplingFrequency;
 
-            for (int i = 0; i < samples.Length; i++)
+            for (int i = 0; i < samples.Length - 1; i++)
                 samples[i] = graph[period * i];
+
+            samples[samples.Length - 1] = samples[samples.Length - 2];
         }
 
         private double[] samples { get; }
@@ -47,7 +49,8 @@ namespace TringoModel.DataSructures.DataCache
 
                 try
                 {
-                    return samples[realIndex] * (1 - difference) + samples[realIndex + 1] * difference;
+                    return samples[realIndex] * (1 - difference) + samples[realIndex + 1] * difference; 
+                    //because samples has one extra field i dont have to check whether realIndex+1 is valid index to samples
                 }
                 catch(IndexOutOfRangeException)
                 {
