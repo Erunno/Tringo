@@ -30,9 +30,21 @@ namespace TringoModel.DataSructures.DataCache
             double period = 1.0 / samplingFrequency;
 
             for (int i = 0; i < samples.Length - 1; i++)
+            {
                 samples[i] = graph[period * i];
+                TryUpdateMinMax(samples[i]);
+            }
 
             samples[samples.Length - 1] = samples[samples.Length - 2];
+        }
+
+        private void TryUpdateMinMax(double value)
+        {
+            if (value > MaxValue)
+                MaxValue = value;
+
+            if (value < MinValue)
+                MinValue = value;
         }
 
         private double[] samples { get; }
@@ -60,6 +72,9 @@ namespace TringoModel.DataSructures.DataCache
         }
 
         public double Length { get; }
+
+        public double MaxValue { get; private set; } = double.MinValue;
+        public double MinValue { get; private set; } = double.MaxValue;
     }
 
     public class TimeOfRangeException : Exception { }

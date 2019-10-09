@@ -29,11 +29,12 @@ namespace Tringo
 
             IGraph sin = new SinGraph();
 
-            IGraph sinCached = new CachedGraph(sin, 2); 
+            IGraph sinCached = new CachedGraph(sin, 30); 
 
-            Range range = new Range(MaxValue: 1.5, MinValue: -1.5);
+            Scale range = new Scale(MaxValue: 0.5, MinValue: -0.5);
 
-            testCanvas.DrawGraph(sinCached, range);
+            //testCanvas.DrawGraph(sinCached, range);
+            testCanvas.DrawGraphWithAutoscale(sin);
 
         }
     }

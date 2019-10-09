@@ -11,9 +11,9 @@ namespace Tringo.TestGraphs
     {
         Random rnd = new Random();
 
-        public double this[double time] => Math.Sin(time);
+        public double this[double time] => (Math.Sin(time));// + lastValue)/2 + rnd.NextDouble()*0.06-0.003;
 
-
+        private double lastValue = 0;
         public double Length { get; } = 10;
     }
 }
