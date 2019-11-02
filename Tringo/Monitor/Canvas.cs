@@ -20,48 +20,65 @@ namespace Tringo.Monitor
         public Canvas(PictureBox pictureBox)
         {
             this.pictureBox = pictureBox;
+            baseBitmap = GetBaseBitmap();
         }
 
-        public void DrawGraphWithAutoscale(IGraph graph)
+        Bitmap baseBitmap;
+        public Scale Scale { get; set; }
+
+
+        public void DrawGraphAutoscale(IGraph graph)
         {
             double freq = 1 / GetSizeOfOneStep(graph);
             double correction = 0.01;
 
             CachedGraph cachedGraph = new CachedGraph(graph,freq); //TODO decide whether cache graph
-            Scale scale = new Scale(
+            Scale = new Scale(
                 MaxValue: cachedGraph.MaxValue * (1 + correction), 
                 MinValue: cachedGraph.MinValue * (1 + correction)
                 );
 
-            DrawGraph(cachedGraph, scale);
+            DrawGraph(cachedGraph);
         }
 
-        public void DrawGraph(IGraph graph, Scale rangeOfPicture)
+
+        public void DrawGraph(IGraph graph)
         {
             double step = GetSizeOfOneStep(graph);
 
-            Bitmap bitmap = GetBaseBitmap();
-
             for (int i = 0; i < pictureBox.Width; i++)
             {
-                int Ycoor = GetYPixel(graph[step * i], rangeOfPicture);
+                int Ycoor = GetYPixel(graph[step * i]);
 
-                if (0 <= Ycoor && Ycoor < pictureBox.Height)
-                    bitmap.SetPixel(x: i, y: Ycoor, GraphColor);
+                if (IsInScale(Ycoor))
+                    baseBitmap.SetPixel(x: i, y: Ycoor, GraphColor);
             }
 
-            pictureBox.Image = bitmap;
+            pictureBox.Image = baseBitmap;
             pictureBox.Refresh();
         }
 
-        private int GetYPixel(double valueInX, Scale scale)
-            => pictureBox.Height - (int)((valueInX - scale.MinValue) / scale.Size * pictureBox.Height);
+        private int GetYPixel(double valueInX)
+            => pictureBox.Height - (int)((valueInX - Scale.MinValue) / Scale.Size * pictureBox.Height);
+
+        private bool IsInScale(int Ycoor)
+            => 0 <= Ycoor && Ycoor < pictureBox.Height;
 
         private double GetSizeOfOneStep(IGraph graph)
             => graph.Length / pictureBox.Width;
 
         private Bitmap GetBaseBitmap()
             => new Bitmap(width: pictureBox.Width, height: pictureBox.Height);
+
+
+        public void Clear()
+        {
+            for (int x = 0; x < baseBitmap.Width; x++)
+                for (int y = 0; y < baseBitmap.Height; y++)
+                    baseBitmap.SetPixel(x, y, Color.Transparent);
+
+            pictureBox.Refresh();
+        }
     }
 
     class Scale

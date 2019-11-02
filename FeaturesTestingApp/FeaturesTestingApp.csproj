@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5E9E7113-8582-4DEF-9F7D-F4629F9012FB}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TringoLib</RootNamespace>
-    <AssemblyName>TringoLib</AssemblyName>
+    <ProjectGuid>{86D947D7-F9DD-4DBF-AF33-2284924BD785}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>FeaturesTestingApp</RootNamespace>
+    <AssemblyName>FeaturesTestingApp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,34 +43,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataProcessing\IDataProcessor.cs" />
-    <Compile Include="DataProcessing\Mean\MeanGraph.cs" />
-    <Compile Include="DataProcessing\Mean\MeanMovement.cs" />
-    <Compile Include="DataProcessing\Mean\MeanSensor.cs" />
-    <Compile Include="DataProcessing\Normalization\NormalizedGraph.cs" />
-    <Compile Include="DataSructures\DataCache\CachedGraph.cs" />
-    <Compile Include="DataSructures\IGraphInfo.cs" />
-    <Compile Include="DataSructures\IGraph.cs" />
-    <Compile Include="DataSructures\IMovement.cs" />
-    <Compile Include="DataSructures\ISensor.cs" />
-    <Compile Include="DataSructures\ISetOfMovements.cs" />
-    <Compile Include="DataSructures\ISetOfSensors.cs" />
-    <Compile Include="DataSructures\Simple\GraphInfo.cs" />
-    <Compile Include="DataSructures\Simple\SensorInfo.cs" />
-    <Compile Include="DataSructures\Simple\SimpleMovement.cs" />
-    <Compile Include="DataSructures\Simple\SimpleSensor.cs" />
-    <Compile Include="DataSructures\Simple\SimpleSensorInfo.cs" />
-    <Compile Include="DataSructures\Simple\ValuesContainingGraph.cs" />
-    <Compile Include="DataSructures\Universal\GraphModifierDelegate.cs" />
-    <Compile Include="DataSructures\Universal\UniversalMovement.cs" />
-    <Compile Include="DataSructures\Universal\UniversalSensor.cs" />
-    <Compile Include="DataView\IDataView.cs" />
-    <Compile Include="LoadingData\ILoader.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Results\IResult.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="RunManagement\" />
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataLoading\DataLoading.csproj">
+      <Project>{e8e0390e-99c2-4e09-a4d3-0dd02d89cb8b}</Project>
+      <Name>DataLoading</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TringoLib\TringoModel.csproj">
+      <Project>{5e9e7113-8582-4def-9f7d-f4629f9012fb}</Project>
+      <Name>TringoModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tringo\Tringo.csproj">
+      <Project>{6fa00e2b-4f7c-46a7-b801-9f673866ac3a}</Project>
+      <Name>Tringo</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

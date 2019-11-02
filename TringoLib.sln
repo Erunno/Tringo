@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TringoModel", "TringoLib\Tr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tringo", "Tringo\Tringo.csproj", "{6FA00E2B-4F7C-46A7-B801-9F673866AC3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLoading", "DataLoading\DataLoading.csproj", "{E8E0390E-99C2-4E09-A4D3-0DD02D89CB8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeaturesTestingApp", "FeaturesTestingApp\FeaturesTestingApp.csproj", "{86D947D7-F9DD-4DBF-AF33-2284924BD785}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{6FA00E2B-4F7C-46A7-B801-9F673866AC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FA00E2B-4F7C-46A7-B801-9F673866AC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FA00E2B-4F7C-46A7-B801-9F673866AC3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8E0390E-99C2-4E09-A4D3-0DD02D89CB8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8E0390E-99C2-4E09-A4D3-0DD02D89CB8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8E0390E-99C2-4E09-A4D3-0DD02D89CB8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8E0390E-99C2-4E09-A4D3-0DD02D89CB8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86D947D7-F9DD-4DBF-AF33-2284924BD785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86D947D7-F9DD-4DBF-AF33-2284924BD785}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86D947D7-F9DD-4DBF-AF33-2284924BD785}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86D947D7-F9DD-4DBF-AF33-2284924BD785}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

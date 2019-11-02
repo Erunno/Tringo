@@ -11,6 +11,7 @@ using Tringo.Monitor;
 using TringoModel.DataSructures;
 using TringoModel.DataSructures.DataCache;
 using Tringo.TestGraphs;
+using TringoModel.DataProcessing.Mean;
 
 namespace Tringo
 {
@@ -27,15 +28,32 @@ namespace Tringo
         {
             testCanvas = new Canvas(testPictureBox);
 
-            IGraph sin = new SinGraph();
+            IGraph sin0 = new SinGraph();
+            IGraph sin1 = new SinGraph(shift: 1, scale: 0.50);
+            IGraph sin2 = new SinGraph(shift: 1.4, scale: 0.75);
+            IGraph sin3 = new SinGraph(shift: 2, scale: 0.68);
+            IGraph sin4 = new SinGraph(shift: 5, scale: 0.90);
+            IGraph sin5 = new SinGraph(shift: 2.5, scale: 0.30);
 
-            IGraph sinCached = new CachedGraph(sin, 30); 
+            List<IGraph> graphs = new List<IGraph>
+            {
+                sin0,sin1,sin2,sin3,sin4,sin5
+            };
 
-            Scale range = new Scale(MaxValue: 0.5, MinValue: -0.5);
 
-            //testCanvas.DrawGraph(sinCached, range);
-            testCanvas.DrawGraphWithAutoscale(sin);
 
+            testCanvas.DrawGraphAutoscale(sin0);
+
+            testCanvas.DrawGraph(sin1);
+            testCanvas.DrawGraph(sin2);
+            testCanvas.DrawGraph(sin3);
+            testCanvas.DrawGraph(sin4);
+            testCanvas.DrawGraph(sin5);
+
+            MeanGraph mg = new MeanGraph(graphs);
+
+            testCanvas.GraphColor = Color.Green;
+            testCanvas.DrawGraph(mg);
         }
     }
 }

@@ -3,39 +3,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TringoModel.DataSructures.Simple;
 
 namespace TringoModel.DataSructures.DataCache
 {
-    public class CachedGraph : IGraph
+    public class CachedGraph : ValuesContainingGraph
     {
         /// <summary>
         /// Constructor of CachedGraph
         /// </summary>
-        /// <param name="graph">Graph to be cached</param>
+        /// <param name="baseGraph">Graph to be cached</param>
         /// <param name="SamplingFrequency">Means number of samples in one second</param>
-        public CachedGraph(IGraph graph, double SamplingFrequency)
+        public CachedGraph(IGraph baseGraph, double samplingFrequency)
         {
-            samplingFrequency = SamplingFrequency;
+            CreateGraphInfo(baseGraph, samplingFrequency);
 
-            int numberOfSamples = (int)(graph.Length * samplingFrequency);
-            samples = new double[numberOfSamples + 1]; //one extra as protection againts indexOutOfRange in indexer
+            samples = new double[graphInfo.SamplesCount]; //one extra as protection againts indexOutOfRange in indexer
 
-            Length = graph.Length;
+            Length = baseGraph.Length;
 
-            CreateSamples(graph);
+            CreateSamples(baseGraph);
+        }
+
+        private void CreateGraphInfo(IGraph baseGraph, double samplingFrequency)
+        {
+            MutableGraphInfo newGraphInfo = new MutableGraphInfo();
+
+            newGraphInfo.Name = ""; //dont need it
+            newGraphInfo.SamplesCount = (int)(baseGraph.Length * samplingFrequency);
+            newGraphInfo.SamplingFrequency = samplingFrequency;
+
+            graphInfo = newGraphInfo;
         }
 
         private void CreateSamples(IGraph graph)
         {
-            double period = 1.0 / samplingFrequency;
+            double period = 1.0 / graphInfo.SamplingFrequency;
 
             for (int i = 0; i < samples.Length - 1; i++)
             {
                 samples[i] = graph[period * i];
                 TryUpdateMinMax(samples[i]);
             }
-
-            samples[samples.Length - 1] = samples[samples.Length - 2];
         }
 
         private void TryUpdateMinMax(double value)
@@ -47,35 +56,9 @@ namespace TringoModel.DataSructures.DataCache
                 MinValue = value;
         }
 
-        private double[] samples { get; }
-        private double samplingFrequency { get; }
-
-        public double this[double time]
-        {
-            get
-            {
-                double hypotheticalIndex = time * samplingFrequency;
-
-                int realIndex = (int)hypotheticalIndex;
-                double difference = hypotheticalIndex % 1;
-
-                try
-                {
-                    return samples[realIndex] * (1 - difference) + samples[realIndex + 1] * difference; 
-                    //because samples has one extra field i dont have to check whether realIndex+1 is valid index to samples
-                }
-                catch(IndexOutOfRangeException)
-                {
-                    throw new TimeOfRangeException();
-                }
-            }
-        }
-
-        public double Length { get; }
-
         public double MaxValue { get; private set; } = double.MinValue;
         public double MinValue { get; private set; } = double.MaxValue;
     }
 
-    public class TimeOfRangeException : Exception { }
+    
 }

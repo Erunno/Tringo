@@ -11,7 +11,18 @@ namespace Tringo.TestGraphs
     {
         Random rnd = new Random();
 
-        public double this[double time] => (Math.Sin(time));// + lastValue)/2 + rnd.NextDouble()*0.06-0.003;
+        public SinGraph() { }
+
+        public SinGraph(double shift, double scale)
+        {
+            this.scale = scale;
+            this.shift = shift;
+        }
+
+        private double shift { get; } = 0;
+        private double scale { get; } = 1;
+
+        public double this[double time] => scale * (Math.Sin(time + shift));
 
         private double lastValue = 0;
         public double Length { get; } = 10;
