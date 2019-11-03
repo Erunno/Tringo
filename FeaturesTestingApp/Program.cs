@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataLoading;
+using System.IO;
+using TringoModel.DataSructures;
 
 namespace FeaturesTestingApp
 {
@@ -11,10 +13,11 @@ namespace FeaturesTestingApp
     {
         static void Main(string[] args)
         {
-            int start = "ahoj_blbe_kokote".GetStartIndexOf("kokote");
+            StreamReader input = new StreamReader(@"C:\Users\matya\Desktop\test_vse.csv");
 
-            Console.WriteLine(start);
+            TextDataLoadingManager manager = new TextDataLoadingManager(input);
 
+            ISetOfSensors result = manager.LoadSensors();
         }
     }
 }

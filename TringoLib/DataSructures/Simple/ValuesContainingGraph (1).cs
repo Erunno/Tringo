@@ -39,7 +39,7 @@ namespace TringoModel.DataSructures.Simple
                 }
             }
         }
-        public double Length => samples.Length / graphInfo.SamplingFrequency;
+        public double Length { get; protected set; }
 
         protected double[] samples;
         protected IGraphInfo graphInfo;

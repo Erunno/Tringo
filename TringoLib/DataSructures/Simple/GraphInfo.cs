@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TringoModel.DataSructures.Simple
 {
-    class MutableGraphInfo : IGraphInfo
+    public class MutableGraphInfo : IGraphInfo
     {
         public string Name { get; set; }
         public double SamplingFrequency { get; set; }

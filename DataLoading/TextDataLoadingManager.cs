@@ -9,25 +9,34 @@ using TringoModel.DataSructures.Simple;
 
 namespace DataLoading
 {
-    public class LoadingManager
+    public interface ILoadingManager
     {
-        public LoadingManager()
+        ISetOfSensors LoadSensors();
+    }
+
+
+    public class TextDataLoadingManager : ILoadingManager
+    {
+        public TextDataLoadingManager(TextReader input)
         {
+            this.input = input;
             preprocessors = new List<IGraphPreprocessor>();
             FillListOfPreprocessors();
         }
 
         List<IGraphPreprocessor> preprocessors;
+        TextReader input { get; }
 
         private void FillListOfPreprocessors() 
         {
-            throw new NotImplementedException();
+            //TODO discuss good blur
+            preprocessors.Add(new GraphBlurPreprocessor(new double[] { 0.125, 0.25, 0.25, 0.25, 0.125 }));
         }
 
-        public ISetOfSensors LoadSensors(TextReader input)
+        public ISetOfSensors LoadSensors()
         {
             Translator translator = new Translator(input);
-            Loader loader = new Loader();
+            GraphLoader loader = new GraphLoader();
 
             List<RawGraph> rawData = loader.LoadGraphs(translator);
             PreprocessAllData(rawData);
@@ -57,18 +66,24 @@ namespace DataLoading
                 if (!AllGraphsHasSameName(rawGraphs, startingIndex: i))
                     throw new GraphsDontHaveSameNameException();
 
-                SimpleSensor newSensor = new SimpleSensor();
+                ISensor newSensor = GetSensor(rawGraphs, index: i);
 
-                newSensor.EMG   = rawGraphs[i + 0];
-                newSensor.X     = rawGraphs[i + 1];
-                newSensor.Y     = rawGraphs[i + 2];
-                newSensor.Z     = rawGraphs[i + 3];
-
-                newSensor.SensorInfo = new SensorInfo(name: rawGraphs[i].GraphInfo.Name);
+                sensors.Add(newSensor);
             }
 
             return sensors;
         }
+
+        private ISensor GetSensor(List<RawGraph> rawGraphs, int index) 
+            => new SimpleSensor
+                {
+                    EMG = rawGraphs[index + 0],
+                    X   = rawGraphs[index + 1],
+                    Y   = rawGraphs[index + 2],
+                    Z   = rawGraphs[index + 3],
+
+                    SensorInfo = new SensorInfo(name: rawGraphs[index].GraphInfo.Name)
+                };
 
         private bool AllGraphsHasSameName(List<RawGraph> graphs, int startingIndex)
         {

@@ -20,8 +20,6 @@ namespace TringoModel.DataSructures.DataCache
 
             samples = new double[graphInfo.SamplesCount]; //one extra as protection againts indexOutOfRange in indexer
 
-            Length = baseGraph.Length;
-
             CreateSamples(baseGraph);
         }
 

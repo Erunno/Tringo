@@ -8,6 +8,6 @@ namespace DataLoading
 {
     interface IGraphPreprocessor
     {
-        void ModifySamples(List<RawGraph> samples);
+        void ModifySamples(List<RawGraph> data);
     }
 }

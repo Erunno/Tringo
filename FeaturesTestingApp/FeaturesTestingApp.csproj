@@ -54,6 +54,10 @@
       <Project>{e8e0390e-99c2-4e09-a4d3-0dd02d89cb8b}</Project>
       <Name>DataLoading</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MovementsCreation\MovementsCreation.csproj">
+      <Project>{554181b3-073b-4eb8-ad31-ff96230392a8}</Project>
+      <Name>MovementsCreation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TringoLib\TringoModel.csproj">
       <Project>{5e9e7113-8582-4def-9f7d-f4629f9012fb}</Project>
       <Name>TringoModel</Name>

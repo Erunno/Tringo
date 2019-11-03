@@ -14,6 +14,7 @@ namespace Tringo.Monitor
     class Canvas
     {
         private PictureBox pictureBox { get; }
+        Graphics graphics { get; }
 
         public Color GraphColor { get; set; } = Color.Red;
 
@@ -21,9 +22,12 @@ namespace Tringo.Monitor
         {
             this.pictureBox = pictureBox;
             baseBitmap = GetBaseBitmap();
+            pictureBox.Image = baseBitmap;
+            
+            graphics = Graphics.FromImage(baseBitmap);
         }
 
-        Bitmap baseBitmap;
+        Bitmap baseBitmap { get; }
         public Scale Scale { get; set; }
 
 
@@ -41,21 +45,29 @@ namespace Tringo.Monitor
             DrawGraph(cachedGraph);
         }
 
-
         public void DrawGraph(IGraph graph)
+        {
+            Brush b = new SolidBrush(GraphColor);
+            Pen pen = new Pen(b);
+            
+            Point lastPoint = new Point(0, 0);
+
+            var allPoints = GetPoints(graph);
+            lastPoint = allPoints.First();
+
+            foreach (var point in allPoints)
+            {
+                graphics.DrawLine(pen, lastPoint, point);
+                lastPoint = point;
+            }
+        }
+
+        private IEnumerable<Point> GetPoints(IGraph graph)
         {
             double step = GetSizeOfOneStep(graph);
 
-            for (int i = 0; i < pictureBox.Width; i++)
-            {
-                int Ycoor = GetYPixel(graph[step * i]);
-
-                if (IsInScale(Ycoor))
-                    baseBitmap.SetPixel(x: i, y: Ycoor, GraphColor);
-            }
-
-            pictureBox.Image = baseBitmap;
-            pictureBox.Refresh();
+            for (int Xcoor = 0; Xcoor < pictureBox.Width; Xcoor++)
+                yield return new Point(Xcoor, GetYPixel(graph[step * Xcoor]));
         }
 
         private int GetYPixel(double valueInX)

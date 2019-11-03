@@ -8,7 +8,7 @@ using TringoModel.DataSructures;
 
 namespace DataLoading
 {
-    class Loader
+    class GraphLoader
     {
         private Parser parser;
         private List<GraphFactory> factories;
@@ -25,7 +25,6 @@ namespace DataLoading
             return loadedData;
         }
         
-
         private void CreateGraphFactories()
         {
             IGraphInfo graphInfo;
@@ -36,6 +35,7 @@ namespace DataLoading
 
         private void FillFactoriesWithSamples()
         {
+            parser.SkipUnwantedLines();
             parser.UpdateLineOfSamples();
 
             while(parser.LineOfSamples != null)
@@ -47,9 +47,9 @@ namespace DataLoading
 
         private void RegisterLineOfSamples(double?[] lineOfSamples)
         {
-            for (int i = 0; i < factories.Count; i++)
-                if(lineOfSamples[i].HasValue)
-                    factories[i].RegisterNextValue(lineOfSamples[i].Value);
+            for (int i = 0; i < factories.Count; i++) //TODO discuss what X[s] column means ... there are lot of them
+                if (lineOfSamples[i * 2 + 1].HasValue)
+                    factories[i].RegisterNextValue(lineOfSamples[i * 2 + 1].Value);
         }
 
         private List<RawGraph> GetDataFromFactories()

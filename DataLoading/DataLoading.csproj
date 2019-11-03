@@ -41,10 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GraphBlurPreprocessor.cs" />
     <Compile Include="GraphFactory.cs" />
     <Compile Include="IGraphPreprocessor.cs" />
-    <Compile Include="Loader.cs" />
-    <Compile Include="LoadingManager.cs" />
+    <Compile Include="GraphLoader.cs" />
+    <Compile Include="TextDataLoadingManager.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="RawGraph.cs" />
     <Compile Include="StringExtensions.cs" />

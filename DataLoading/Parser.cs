@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using TringoModel.DataSructures;
+using TringoModel.DataSructures.Simple;
 
 namespace DataLoading
 {
@@ -109,9 +110,9 @@ namespace DataLoading
 
         public void UpdateLineOfSamples()
         {
-            string values = GetNextLine();
+            currLine = GetNextLine();
 
-            if(values == null)
+            if(currLine == null)
             {
                 LineOfSamples = null;
                 return;
@@ -121,6 +122,7 @@ namespace DataLoading
                 throw new NotValuesLineException();
 
             ParseCurrLineToLineOfSamples();
+            lastLineHasBeenProccesed = true;
         }
 
         char[] valuesSeparators = { ',' };
@@ -147,14 +149,16 @@ namespace DataLoading
         {
             currLine = GetNextLine();
 
-            while (LineHasSamplesFormat())
+            while (!LineHasSamplesFormat())
             {
                 lastLineHasBeenProccesed = true;
                 currLine = GetNextLine();
             }
+
+            lastLineHasBeenProccesed = false;
         }
 
-        private bool LineHasSamplesFormat() => currLine != null && (IsNum(currLine[0]) || IsMinusSign(currLine[0]));
+        private bool LineHasSamplesFormat() => currLine != null && currLine.Length != 0 && (IsNum(currLine[0]) || IsMinusSign(currLine[0]));
         private bool IsNum(char ch) => '0' <= ch && ch <= '9';
         private bool IsMinusSign(char ch) => ch == '-';
 

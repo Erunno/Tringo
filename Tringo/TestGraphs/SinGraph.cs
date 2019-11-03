@@ -24,7 +24,6 @@ namespace Tringo.TestGraphs
 
         public double this[double time] => scale * (Math.Sin(time + shift));
 
-        private double lastValue = 0;
         public double Length { get; } = 10;
     }
 }
