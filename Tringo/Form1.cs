@@ -26,62 +26,27 @@ namespace Tringo
             InitializeComponent();
         }
 
-        Canvas testCanvas; 
-
-        private void Button1_Click(object sender, EventArgs e)
+        ISetOfSensors setOfSensors;
+        private void bLoading_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            MovementCreatorForm movementCreatorForm = new MovementCreatorForm();
-            movementCreatorForm.ShowDialog();
-            return;
+            if (openFileDialog1.ShowDialog() != DialogResult.OK)
+                return;
 
-            PictureBox testPictureBox = new PictureBox();
-            testPictureBox.Height = flowLayoutPanel1.Height - 40;
-            testPictureBox.Width = 20*flowLayoutPanel1.Width;
+            LoadingVisualisation loadingForm = new LoadingVisualisation(openFileDialog1.FileName);
+            loadingForm.ShowDialog();
 
-            flowLayoutPanel1.AutoScroll = true;
-            flowLayoutPanel1.Controls.Add(testPictureBox);
+            if (!loadingForm.LoadingWasSuccesful || !loadingForm.LoadingIsDone)
+                return;
 
-            testCanvas = new Canvas(testPictureBox);
-            
-            
-            StreamReader input = new StreamReader(@"C:\Users\matya\Desktop\test_vse.csv");
-            TextDataLoadingManager manager = new TextDataLoadingManager(input);
-            ISetOfSensors result = manager.LoadSensors();
-            
-            
-            GraphInterval smallerGraph = new GraphInterval(result.Sensors[4].EMG, new Interval(0,20));
-            
-            testCanvas.DrawGraphAutoscale(smallerGraph);
-            
-            return;
+            setOfSensors = loadingForm.Result;
+            bCreateMovements.Enabled = true;
+        }
 
-            IGraph sin0 = new SinGraph();
-            IGraph sin1 = new SinGraph(shift: 1, scale: 1.50);
-            IGraph sin2 = new SinGraph(shift: 1.4, scale: 0.75);
-            IGraph sin3 = new SinGraph(shift: 2, scale: 0.68);
-            IGraph sin4 = new SinGraph(shift: 5, scale: 0.90);
-            IGraph sin5 = new SinGraph(shift: 2.5, scale: 0.30);
-
-            List<IGraph> graphs = new List<IGraph>
-            {
-                sin0,sin1,sin2,sin3,sin4,sin5
-            };
-
-
-
-            testCanvas.DrawGraphAutoscale(sin0);
-
-            testCanvas.DrawGraph(sin1);
-            testCanvas.DrawGraph(sin2);
-            testCanvas.DrawGraph(sin3);
-            testCanvas.DrawGraph(sin4);
-            testCanvas.DrawGraph(sin5);
-
-            MeanGraph mg = new MeanGraph(graphs);
-
-            testCanvas.GraphColor = Color.Green;
-            testCanvas.DrawGraph(mg);
+        ISetOfMovements setOfMovements;
+        private void bCreateMovements_Click(object sender, EventArgs e)
+        {
+            IMovementsCreationManager movCr = new FormMovementCreatorManager();
+            setOfMovements = movCr.CreateSetOfMovements(setOfSensors);
         }
     }
 }

@@ -11,13 +11,14 @@ namespace MovementsCreation
     public interface IMovementsCreator
     {
         void RegisterBoundary(double timeBoundary);
-        void RemoveLastBoundary();
+        void RemoveLastBorder();
 
         bool CanCreateMovementIn(double time);
         void CreateMovement(double timeContaintInMovement);
         void RemoveMovement(double timeContaintInMovement);
 
         IEnumerable<Interval> GetUsedIntervals();
+        IEnumerable<double> GetUsedBorders();
 
         ISetOfMovements GetCreatedSetOfMovements();
     }

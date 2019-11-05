@@ -30,8 +30,7 @@
         {
             this.bAddBorder = new System.Windows.Forms.Button();
             this.bRemoveLastBorder = new System.Windows.Forms.Button();
-            this.bMarkMovement = new System.Windows.Forms.Button();
-            this.bRemoveMovement = new System.Windows.Forms.Button();
+            this.bModifyMovement = new System.Windows.Forms.Button();
             this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.cbListOfGraphs = new System.Windows.Forms.ComboBox();
             this.lGraphsList = new System.Windows.Forms.Label();
@@ -40,48 +39,45 @@
             // 
             // bAddBorder
             // 
+            this.bAddBorder.Enabled = false;
             this.bAddBorder.Location = new System.Drawing.Point(12, 226);
             this.bAddBorder.Name = "bAddBorder";
             this.bAddBorder.Size = new System.Drawing.Size(224, 43);
             this.bAddBorder.TabIndex = 2;
             this.bAddBorder.Text = "Přidávat hranice";
             this.bAddBorder.UseVisualStyleBackColor = true;
+            this.bAddBorder.Click += new System.EventHandler(this.bAddBorder_Click);
             // 
             // bRemoveLastBorder
             // 
+            this.bRemoveLastBorder.Enabled = false;
             this.bRemoveLastBorder.Location = new System.Drawing.Point(12, 275);
             this.bRemoveLastBorder.Name = "bRemoveLastBorder";
             this.bRemoveLastBorder.Size = new System.Drawing.Size(224, 43);
             this.bRemoveLastBorder.TabIndex = 3;
             this.bRemoveLastBorder.Text = "Odebrat poslední hranci";
             this.bRemoveLastBorder.UseVisualStyleBackColor = true;
+            this.bRemoveLastBorder.Click += new System.EventHandler(this.bRemoveLastBorder_Click);
             // 
-            // bMarkMovement
+            // bModifyMovement
             // 
-            this.bMarkMovement.Location = new System.Drawing.Point(12, 368);
-            this.bMarkMovement.Name = "bMarkMovement";
-            this.bMarkMovement.Size = new System.Drawing.Size(224, 43);
-            this.bMarkMovement.TabIndex = 4;
-            this.bMarkMovement.Text = "Označit Pohyb";
-            this.bMarkMovement.UseVisualStyleBackColor = true;
-            // 
-            // bRemoveMovement
-            // 
-            this.bRemoveMovement.Location = new System.Drawing.Point(12, 417);
-            this.bRemoveMovement.Name = "bRemoveMovement";
-            this.bRemoveMovement.Size = new System.Drawing.Size(224, 43);
-            this.bRemoveMovement.TabIndex = 5;
-            this.bRemoveMovement.Text = "Odebírat pohyby";
-            this.bRemoveMovement.UseVisualStyleBackColor = true;
+            this.bModifyMovement.Enabled = false;
+            this.bModifyMovement.Location = new System.Drawing.Point(12, 368);
+            this.bModifyMovement.Name = "bModifyMovement";
+            this.bModifyMovement.Size = new System.Drawing.Size(224, 43);
+            this.bModifyMovement.TabIndex = 4;
+            this.bModifyMovement.Text = "Modifikovat pohyby";
+            this.bModifyMovement.UseVisualStyleBackColor = true;
+            this.bModifyMovement.Click += new System.EventHandler(this.bModifyMovement_Click);
             // 
             // flowLayoutPanel
             // 
+            this.flowLayoutPanel.AutoScroll = true;
             this.flowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.flowLayoutPanel.Location = new System.Drawing.Point(242, 12);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
             this.flowLayoutPanel.Size = new System.Drawing.Size(1185, 683);
             this.flowLayoutPanel.TabIndex = 6;
-            this.flowLayoutPanel.Click += new System.EventHandler(this.flowLayoutPanel_Click);
             // 
             // cbListOfGraphs
             // 
@@ -90,6 +86,7 @@
             this.cbListOfGraphs.Name = "cbListOfGraphs";
             this.cbListOfGraphs.Size = new System.Drawing.Size(224, 21);
             this.cbListOfGraphs.TabIndex = 7;
+            this.cbListOfGraphs.SelectedIndexChanged += new System.EventHandler(this.cbListOfGraphs_SelectedIndexChanged);
             // 
             // lGraphsList
             // 
@@ -103,12 +100,14 @@
             // 
             // bFinish
             // 
+            this.bFinish.Enabled = false;
             this.bFinish.Location = new System.Drawing.Point(12, 573);
             this.bFinish.Name = "bFinish";
             this.bFinish.Size = new System.Drawing.Size(224, 79);
             this.bFinish.TabIndex = 9;
             this.bFinish.Text = "Hotovo";
             this.bFinish.UseVisualStyleBackColor = true;
+            this.bFinish.Click += new System.EventHandler(this.bFinish_Click);
             // 
             // MovementCreatorForm
             // 
@@ -119,8 +118,7 @@
             this.Controls.Add(this.lGraphsList);
             this.Controls.Add(this.cbListOfGraphs);
             this.Controls.Add(this.flowLayoutPanel);
-            this.Controls.Add(this.bRemoveMovement);
-            this.Controls.Add(this.bMarkMovement);
+            this.Controls.Add(this.bModifyMovement);
             this.Controls.Add(this.bRemoveLastBorder);
             this.Controls.Add(this.bAddBorder);
             this.Name = "MovementCreatorForm";
@@ -133,8 +131,7 @@
         #endregion
         private System.Windows.Forms.Button bAddBorder;
         private System.Windows.Forms.Button bRemoveLastBorder;
-        private System.Windows.Forms.Button bMarkMovement;
-        private System.Windows.Forms.Button bRemoveMovement;
+        private System.Windows.Forms.Button bModifyMovement;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel;
         private System.Windows.Forms.ComboBox cbListOfGraphs;
         private System.Windows.Forms.Label lGraphsList;

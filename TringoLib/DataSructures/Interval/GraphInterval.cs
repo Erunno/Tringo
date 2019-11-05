@@ -47,6 +47,9 @@ namespace TringoModel.DataSructures.Interval
         public bool ValueIsInClosedInterval(double value) => From <= value && value <= To; 
 
         public bool ValueIsInOpenInterval(double value) => From < value && value < To;
+
+        public static bool operator ==(Interval i1, Interval i2) => i1.From == i2.From && i1.To == i2.To;
+        public static bool operator !=(Interval i1, Interval i2) => !(i1 == i2);
     }
 
     class UnvalidIntervalProvidedException : ArgumentException { }
