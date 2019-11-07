@@ -19,6 +19,8 @@ namespace Tringo
         public LoadingVisualisation(string dataPath)
         {
             InitializeComponent();
+            
+            
             this.dataPath = dataPath;
             Run();
         }
@@ -69,13 +71,18 @@ namespace Tringo
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (loadingThread != null && !loadingThread.IsAlive)
+                this.Close();
+
             progressBar.Value = (int)(textReader.PercentageReaded * progressBar.Maximum);
             progressBar.Refresh();
 
-            if (loadingThread != null && !loadingThread.IsAlive)
-                this.Close();
         }
 
+        private void bClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 
     class TextReaderMonitor : TextReader

@@ -54,6 +54,10 @@
       <Project>{e8e0390e-99c2-4e09-a4d3-0dd02d89cb8b}</Project>
       <Name>DataLoading</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataProcessing\DataProcessing.csproj">
+      <Project>{a2c83dfd-3545-403c-abd7-d5aaaefe78e9}</Project>
+      <Name>DataProcessing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MovementsCreation\MovementsCreation.csproj">
       <Project>{554181b3-073b-4eb8-ad31-ff96230392a8}</Project>
       <Name>MovementsCreation</Name>
@@ -65,6 +69,10 @@
     <ProjectReference Include="..\Tringo\Tringo.csproj">
       <Project>{6fa00e2b-4f7c-46a7-b801-9f673866ac3a}</Project>
       <Name>Tringo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewingUtils\ViewingUtils.csproj">
+      <Project>{0fa0394b-f38a-43ee-910a-4d4b2ba3fced}</Project>
+      <Name>ViewingUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

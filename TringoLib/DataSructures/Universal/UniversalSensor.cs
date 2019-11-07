@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TringoModel.DataSructures.Universal
 {
-    class UniversalSensor : ISensor
+    public class UniversalSensor : ISensor
     {
         public UniversalSensor(ISensor baseSensor, GraphModifierDelegate graphModifier)
         {

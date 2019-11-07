@@ -14,7 +14,7 @@ namespace TringoModel.DataProcessing.Normalization
             Length = newLength;
             this.baseGraph = baseGraph;
 
-            timeModifier = newLength / baseGraph.Length;
+            timeModifier = baseGraph.Length / newLength;
         }
 
         private IGraph baseGraph { get; }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using DataLoading;
 using System.IO;
 using TringoModel.DataSructures;
+using DataProcessing;
+using ViewingUtils;
+using TringoModel.DataProcessing.Arithmetics;
 
 namespace FeaturesTestingApp
 {
@@ -13,11 +16,13 @@ namespace FeaturesTestingApp
     {
         static void Main(string[] args)
         {
-            StreamReader input = new StreamReader(@"C:\Users\matya\Desktop\test_vse.csv");
+            SinGraph s1 = new SinGraph();
+            SinGraph s2 = new SinGraph(0,2);
 
-            TextDataLoadingManager manager = new TextDataLoadingManager(input);
+            DifferenceGraph diff = new DifferenceGraph(s2, s1);
 
-            ISetOfSensors result = manager.LoadSensors();
+            Console.WriteLine(diff.GetAbsoluteArea(100000));
+
         }
     }
 }

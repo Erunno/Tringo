@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using ViewingUtils;
 using System.Windows.Forms;
+using ViewingUtils.Canvases;
 
 namespace MovementsCreation
 {
     class EventsManager
     {
-        public EventsManager(Canvas canvas, PictureBox pictureBox, IMovementsCreator movementsCreator)
+        public EventsManager(MovementCreationCanvas canvas, PictureBox pictureBox, IMovementsCreator movementsCreator)
         {
             this.canvas = canvas;
             this.movementsCreator = movementsCreator;
@@ -21,7 +22,7 @@ namespace MovementsCreation
             ChangeCurrentAction(ClickAction.AddingBorder);
         }
 
-        Canvas canvas { get; }
+        MovementCreationCanvas canvas { get; }
         PictureBox pictureBox { get; }
         IMovementsCreator movementsCreator { get; }
         ClickHandler currentClickHandler;

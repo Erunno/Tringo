@@ -9,11 +9,11 @@ using TringoModel.DataSructures.DataCache;
 
 namespace ViewingUtils
 {
-    class GraphDrawer
+    public class GraphDrawer
     {
         Graphics graphics { get; }
 
-        public Color GraphColor { get; set; } = Color.Red;
+        public Pen GraphPen { get; set; } = Pens.Red;
 
         public GraphDrawer(Bitmap image)
         {
@@ -41,17 +41,12 @@ namespace ViewingUtils
 
         public void DrawGraph(IGraph graph)
         {
-            Brush b = new SolidBrush(GraphColor);
-            Pen pen = new Pen(b);
-
-            Point lastPoint = new Point(0, 0);
-
             var allPoints = GetPoints(graph);
-            lastPoint = allPoints.First();
+            Point lastPoint = allPoints.First();
 
             foreach (var point in allPoints)
             {
-                graphics.DrawLine(pen, lastPoint, point);
+                graphics.DrawLine(GraphPen, lastPoint, point);
                 lastPoint = point;
             }
         }

@@ -15,6 +15,8 @@ namespace TringoModel.DataProcessing.Mean
                 throw new UncorrectSensorSetException();
 
             this.sensors = sensors;
+            
+            SetSensorInfo();
 
             X = GetMeanGraph(s => s.X);
             Y = GetMeanGraph(s => s.Y);
@@ -42,6 +44,11 @@ namespace TringoModel.DataProcessing.Mean
                 return true;
             else
                 return false;
+        }
+
+        private void SetSensorInfo()
+        {
+            SensorInfo = sensors.First().SensorInfo;
         }
 
         public IGraph X { get; }

@@ -16,12 +16,14 @@ using DataLoading;
 using System.IO;
 using TringoModel.DataSructures.Interval;
 using MovementsCreation;
+using ViewingUtils;
+using DataProcessing;
 
 namespace Tringo
 {
-    public partial class Form1 : Form
+    public partial class TringoApp : Form
     {
-        public Form1()
+        public TringoApp()
         {
             InitializeComponent();
         }
@@ -47,6 +49,39 @@ namespace Tringo
         {
             IMovementsCreationManager movCr = new FormMovementCreatorManager();
             setOfMovements = movCr.CreateSetOfMovements(setOfSensors);
+
+            bMeanComputation.Enabled = bVariationStatistics.Enabled = setOfMovements != null && setOfMovements.Movements.Count != 0;
+        }
+
+        private void bMeanComputation_Click(object sender, EventArgs e)
+        {
+            IMovement mean = GetMeanMovement();
+
+            MeanGraphView form = new MeanGraphView(mean, setOfMovements);
+            form.ShowDialog();
+        }
+
+        private void bVariationStatistics_Click(object sender, EventArgs e)
+        {
+            VarianceCalculator calc = new VarianceCalculator(samplingFrequency: 500); // TODO discuss
+            IMovement mean = GetMeanMovement();
+
+            IVarinceData data = calc.CompudeVariance(mean, setOfMovements);
+
+            MessageBox.Show(data.ToString());
+        }
+
+        private IMovement GetMeanMovement()
+        {
+            MeanMovementManager meanMovementManager = new MeanMovementManager(setOfMovements);
+            IMovement mean = meanMovementManager.GetMeanMovement();
+
+            return mean;
+        }
+
+        private void bClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

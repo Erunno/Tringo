@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TringoModel.DataSructures.Universal
 {
-    class UniversalMovement : IMovement
+    public class UniversalMovement : IMovement
     {
         public UniversalMovement(IMovement baseMovement, GraphModifierDelegate graphModifier)
         {

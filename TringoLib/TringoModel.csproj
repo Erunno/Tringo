@@ -41,11 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataProcessing\Arithmetics\PlusMinus.cs" />
     <Compile Include="DataProcessing\IDataProcessor.cs" />
     <Compile Include="DataProcessing\Mean\MeanGraph.cs" />
     <Compile Include="DataProcessing\Mean\MeanMovement.cs" />
     <Compile Include="DataProcessing\Mean\MeanSensor.cs" />
     <Compile Include="DataProcessing\Normalization\NormalizedGraph.cs" />
+    <Compile Include="DataProcessing\Normalization\NormalizedSetOfMovement.cs" />
     <Compile Include="DataSructures\DataCache\CachedGraph.cs" />
     <Compile Include="DataSructures\Interval\GraphInterval.cs" />
     <Compile Include="DataSructures\IGraphInfo.cs" />
@@ -62,6 +64,8 @@
     <Compile Include="DataSructures\Simple\SimpleSensorInfo.cs" />
     <Compile Include="DataSructures\Simple\SimpleSetOfMovements.cs" />
     <Compile Include="DataSructures\Simple\ValuesContainingGraph.cs" />
+    <Compile Include="DataSructures\Universal\BiUniversalMovement.cs" />
+    <Compile Include="DataSructures\Universal\BiUniversalSensor.cs" />
     <Compile Include="DataSructures\Universal\GraphModifierDelegate.cs" />
     <Compile Include="DataSructures\Universal\UniversalMovement.cs" />
     <Compile Include="DataSructures\Universal\UniversalSensor.cs" />

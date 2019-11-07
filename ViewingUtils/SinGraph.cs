@@ -24,6 +24,6 @@ namespace ViewingUtils
 
         public double this[double time] => scale * (Math.Sin(time + shift));
 
-        public double Length { get; } = 30;
+        public double Length { get; } = 2*Math.PI;
     }
 }
