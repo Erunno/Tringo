@@ -11,19 +11,23 @@ namespace MovementsCreation
 {
     class EventsManager
     {
-        public EventsManager(MovementCreationCanvas canvas, PictureBox pictureBox, IMovementsCreator movementsCreator)
+        public EventsManager(SensorCanvas<MovementCreationCanvas> sensorCanvas, IMovementsCreator movementsCreator)
         {
-            this.canvas = canvas;
+            this.canvases = sensorCanvas.GraphCanvases;
             this.movementsCreator = movementsCreator;
 
-            this.pictureBox = pictureBox;
-            pictureBox.Click += HandleClick;
+            ConfigureCanvases();
 
             ChangeCurrentAction(ClickAction.AddingBorder);
         }
 
-        MovementCreationCanvas canvas { get; }
-        PictureBox pictureBox { get; }
+        private void ConfigureCanvases()
+        {
+            foreach (var canvas in canvases)
+                canvas.PictureBox.Click += HandleClick;
+        }
+
+        IEnumerable<MovementCreationCanvas> canvases { get; }
         IMovementsCreator movementsCreator { get; }
         ClickHandler currentClickHandler;
 
@@ -54,20 +58,26 @@ namespace MovementsCreation
             double time = GetTime(e.X);
 
             movementsCreator.RegisterBoundary(time);
-            
-            canvas.Borders = movementsCreator.GetUsedBorders();
-            canvas.RefreshBorders();
-            pictureBox.Refresh();
+
+            foreach (var canvas in canvases)
+            {
+                canvas.Borders = movementsCreator.GetUsedBorders();
+                canvas.RefreshBorders();
+                canvas.PictureBox.Refresh();
+            }
         }
 
         public void RemoveLastBorder()
         {
             movementsCreator.RemoveLastBorder();
 
-            canvas.Borders = movementsCreator.GetUsedBorders();
+            foreach (var canvas in canvases)
+            {
+                canvas.Borders = movementsCreator.GetUsedBorders();
             
-            canvas.RefreshBorders();
-            pictureBox.Refresh();
+                canvas.RefreshBorders();
+                canvas.PictureBox.Refresh();
+            }
         }
 
         private void ModifyIntervals(MouseEventArgs e)
@@ -79,13 +89,21 @@ namespace MovementsCreation
             else
                 movementsCreator.RemoveMovement(time);
 
-            canvas.MovementsIntervals = movementsCreator.GetUsedIntervals();
+            foreach (var canvas in canvases)
+            {
+                canvas.MovementsIntervals = movementsCreator.GetUsedIntervals();
             
-            canvas.RefreshIntervals();
-            pictureBox.Refresh();
+                canvas.RefreshIntervals();
+                canvas.PictureBox.Refresh();
+            }
         }
 
-        private double GetTime(double Xcoor) => (Xcoor / canvas.BitmapImage.Width) * canvas.Graph.Length;
+        private double GetTime(double Xcoor)
+        {
+            MovementCreationCanvas randomCanvas = canvases.First(); //all graphs are of same width since they are from one sensor
+
+            return (Xcoor / randomCanvas.BitmapImage.Width) * randomCanvas.Graph.Length;
+        }
     }
 
 }

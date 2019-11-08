@@ -10,16 +10,16 @@ using TringoModel.DataSructures.Interval;
 
 namespace ViewingUtils.Canvases
 {
-    public class Canvas
+    public class GraphCanvas
     {
-        public Canvas(PictureBox pictureBox)
+        public GraphCanvas(PictureBox pictureBox)
         {
-            PictureBoxOfImage = pictureBox;
+            PictureBox = pictureBox;
         }
 
         public Bitmap BitmapImage { get; private set; }
 
-        public PictureBox PictureBoxOfImage { get; }
+        public PictureBox PictureBox { get; }
 
         public void SetImage(Bitmap newBitmap)
         {
@@ -27,7 +27,7 @@ namespace ViewingUtils.Canvases
             graphDrawer = new GraphDrawer(newBitmap);
             graphics = Graphics.FromImage(newBitmap);
 
-            PictureBoxOfImage.Image = newBitmap;
+            PictureBox.Image = newBitmap;
         }
 
         public void SetImage(Size sizeOfNewBitmap)
@@ -55,7 +55,7 @@ namespace ViewingUtils.Canvases
 
             DrawGraph();
 
-            PictureBoxOfImage.Refresh();
+            PictureBox.Refresh();
         }
 
         protected void DrawGraph()

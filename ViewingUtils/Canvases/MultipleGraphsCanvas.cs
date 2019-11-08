@@ -9,7 +9,7 @@ using System.Drawing;
 
 namespace ViewingUtils.Canvases
 {
-    public class MultipleGraphsCanvas : Canvas
+    public class MultipleGraphsCanvas : GraphCanvas
     {
         public MultipleGraphsCanvas(PictureBox pictureBox) : base(pictureBox) { }
 
@@ -27,7 +27,7 @@ namespace ViewingUtils.Canvases
             DrawMinorGraphs();
             DrawGraph(); //TODO find better solution
 
-            PictureBoxOfImage.Refresh();
+            PictureBox.Refresh();
         }
 
         private void DrawMinorGraphs()

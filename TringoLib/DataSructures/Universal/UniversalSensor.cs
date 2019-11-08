@@ -27,6 +27,6 @@ namespace TringoModel.DataSructures.Universal
 
         public IGraph EMG { get; }
 
-        public ISensorInfo SensorInfo { get; }
+        public SensorInfo SensorInfo { get; }
     }
 }

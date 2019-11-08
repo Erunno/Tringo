@@ -50,6 +50,10 @@ namespace TringoModel.DataSructures.Interval
 
         public static bool operator ==(Interval i1, Interval i2) => i1.From == i2.From && i1.To == i2.To;
         public static bool operator !=(Interval i1, Interval i2) => !(i1 == i2);
+
+
+        public override bool Equals(object obj) => obj is Interval && (Interval)obj == this;
+        public override int GetHashCode() => From.GetHashCode() + To.GetHashCode();
     }
 
     class UnvalidIntervalProvidedException : ArgumentException { }

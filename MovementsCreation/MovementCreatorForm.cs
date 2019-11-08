@@ -55,7 +55,7 @@ namespace MovementsCreation
 
         private void CreateEventsManager()
         {
-            eventsManager = new EventsManager(externComponents.Canvas, externComponents.PictureBox, movementsCreator);
+            eventsManager = new EventsManager(externComponents.SensorCanvas, movementsCreator);
         }
 
         private void bAddBorder_Click(object sender, EventArgs e)

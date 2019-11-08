@@ -35,6 +35,7 @@
             this.bVariationStatistics = new System.Windows.Forms.Button();
             this.lName = new System.Windows.Forms.Label();
             this.bClose = new System.Windows.Forms.Button();
+            this.lAuthor = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // bLoading
@@ -113,19 +114,31 @@
             this.bClose.FlatAppearance.BorderSize = 0;
             this.bClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bClose.ForeColor = System.Drawing.Color.Transparent;
-            this.bClose.Location = new System.Drawing.Point(380, 12);
+            this.bClose.Location = new System.Drawing.Point(373, 12);
             this.bClose.Name = "bClose";
             this.bClose.Size = new System.Drawing.Size(20, 20);
             this.bClose.TabIndex = 7;
             this.bClose.UseVisualStyleBackColor = false;
             this.bClose.Click += new System.EventHandler(this.bClose_Click);
             // 
+            // lAuthor
+            // 
+            this.lAuthor.AutoSize = true;
+            this.lAuthor.Font = new System.Drawing.Font("Bahnschrift SemiBold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lAuthor.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lAuthor.Location = new System.Drawing.Point(277, 473);
+            this.lAuthor.Name = "lAuthor";
+            this.lAuthor.Size = new System.Drawing.Size(116, 19);
+            this.lAuthor.TabIndex = 8;
+            this.lAuthor.Text = "Matyáš Brabec";
+            // 
             // TringoApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(39)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(412, 501);
+            this.ClientSize = new System.Drawing.Size(405, 501);
+            this.Controls.Add(this.lAuthor);
             this.Controls.Add(this.bClose);
             this.Controls.Add(this.lName);
             this.Controls.Add(this.bVariationStatistics);
@@ -149,6 +162,7 @@
         private System.Windows.Forms.Button bVariationStatistics;
         private System.Windows.Forms.Label lName;
         private System.Windows.Forms.Button bClose;
+        private System.Windows.Forms.Label lAuthor;
     }
 }
 

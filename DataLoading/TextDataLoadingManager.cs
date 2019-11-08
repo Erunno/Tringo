@@ -82,7 +82,7 @@ namespace DataLoading
                     Y   = rawGraphs[index + 2],
                     Z   = rawGraphs[index + 3],
 
-                    SensorInfo = new SensorInfo(name: rawGraphs[index].GraphInfo.Name)
+                    SensorInfo = new SimpleSensorInfo(name: rawGraphs[index].GraphInfo.Name)
                 };
 
         private bool AllGraphsHasSameName(List<RawGraph> graphs, int startingIndex)

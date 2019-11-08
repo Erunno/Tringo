@@ -36,7 +36,7 @@ namespace ViewingUtils
                 meanMovement.Sensors, flowLayoutPanel, comboBox,
                 pb => new MultipleGraphsCanvas(pb));
 
-            int width = flowLayoutPanel.Width - 5; //TODO add custom
+            int width = flowLayoutPanel.Width - 20; //TODO add custom
 
             externComponents = builder.GetInicializedComponents(width);
             
@@ -45,19 +45,31 @@ namespace ViewingUtils
 
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            externComponents.Canvas.MinorGraphs = GetGraphsFor((GraphItemInComboBox)comboBox.SelectedItem);
+            externComponents.SensorCanvas.GraphCanvases.EMG.MinorGraphs
+                = GetGraphsFor((GraphItemInComboBox)comboBox.SelectedItem, s => s.EMG);
+
+            externComponents.SensorCanvas.GraphCanvases.X.MinorGraphs
+                = GetGraphsFor((GraphItemInComboBox)comboBox.SelectedItem, s => s.X);
+
+            externComponents.SensorCanvas.GraphCanvases.Y.MinorGraphs
+                = GetGraphsFor((GraphItemInComboBox)comboBox.SelectedItem, s => s.Y);
+
+            externComponents.SensorCanvas.GraphCanvases.Z.MinorGraphs
+                = GetGraphsFor((GraphItemInComboBox)comboBox.SelectedItem, s => s.Z);
         }
 
-        private IEnumerable<IGraph> GetGraphsFor(GraphItemInComboBox item)
+        private IEnumerable<IGraph> GetGraphsFor(GraphItemInComboBox item, GraphProvider graphProvider)
         {
             foreach (var listOfSensors in (from movement in baseSetOfMovements.Movements select movement.Sensors))
                 foreach (var sensor in listOfSensors)
                     if(sensor.SensorInfo == item.Sensor.SensorInfo)
                     {
-                        yield return item.GraphProvider(sensor);
+                        yield return graphProvider(sensor);
                         break;
                     }
         }
+
+        delegate IGraph GraphProvider(ISensor sensor); 
 
         private void bClose_Click(object sender, EventArgs e)
         {

@@ -9,9 +9,9 @@ using ViewingUtils.Canvases;
 
 namespace ViewingUtils
 {
-    public class ComboBoxManager
+    public class ComboBoxManager<Canvas> where Canvas : GraphCanvas
     {
-        public ComboBoxManager(ComboBox comboBox, Canvas canvas, IList<ISensor> sensors)
+        public ComboBoxManager(ComboBox comboBox, SensorCanvas<Canvas> canvas, IList<ISensor> sensors)
         {
             this.comboBox = comboBox;
             this.canvas = canvas;
@@ -20,29 +20,20 @@ namespace ViewingUtils
         }
 
         ComboBox comboBox;
-        Canvas canvas;
+        SensorCanvas<Canvas> canvas;
 
         private void FillComboBox(IList<ISensor> sensors)
         {
             foreach (var sensor in sensors)
-            {
-                comboBox.Items.Add(
-                    new GraphItemInComboBox(sensor.SensorInfo.Name + ":EMG", sensor, s => s.EMG));
-                comboBox.Items.Add(
-                    new GraphItemInComboBox(sensor.SensorInfo.Name + ":X", sensor, s => s.X));
-                comboBox.Items.Add(
-                    new GraphItemInComboBox(sensor.SensorInfo.Name + ":Y", sensor, s => s.Y));
-                comboBox.Items.Add(
-                    new GraphItemInComboBox(sensor.SensorInfo.Name + ":Z", sensor, s => s.Z));
-            }
+                comboBox.Items.Add(new GraphItemInComboBox(sensor));
         }
 
         private void SelectedIndexChanged(object sender, EventArgs e)
         {
             GraphItemInComboBox item = (GraphItemInComboBox)comboBox.SelectedItem;
 
-            canvas.Graph = item.Graph;
-            canvas.RefreshAllComponents();
+            canvas.Sensor = item.Sensor;
+            canvas.RefreshAllSubgraphs();
         }
 
     }
@@ -50,23 +41,15 @@ namespace ViewingUtils
 
     public class GraphItemInComboBox
     {
-        public GraphItemInComboBox(string name,ISensor sensor, GraphProviderDelegate graphProvider)
+        public GraphItemInComboBox(ISensor sensor)
         {
-            this.Name = name;
-            this.GraphProvider = graphProvider;
             this.Sensor = sensor;
         }
 
-        public IGraph Graph => GraphProvider(Sensor);
-
-        public GraphProviderDelegate GraphProvider { get; }
-
         public ISensor Sensor { get; }
 
-        public string Name { get; }
+        public string Name => Sensor.SensorInfo.Name;
 
         public override string ToString() => Name;
-
-        public delegate IGraph GraphProviderDelegate(ISensor sensor);
     }
 }

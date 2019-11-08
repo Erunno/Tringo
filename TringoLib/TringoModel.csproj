@@ -58,7 +58,7 @@
     <Compile Include="DataSructures\ISetOfMovements.cs" />
     <Compile Include="DataSructures\ISetOfSensors.cs" />
     <Compile Include="DataSructures\Simple\GraphInfo.cs" />
-    <Compile Include="DataSructures\Simple\SensorInfo.cs" />
+    <Compile Include="DataSructures\Simple\SimpleSensorInfo1.cs" />
     <Compile Include="DataSructures\Simple\SimpleMovement.cs" />
     <Compile Include="DataSructures\Simple\SimpleSensor.cs" />
     <Compile Include="DataSructures\Simple\SimpleSensorInfo.cs" />

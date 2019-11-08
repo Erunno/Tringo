@@ -11,7 +11,7 @@ using ViewingUtils;
 
 namespace ViewingUtils.Canvases
 {
-    public class MovementCreationCanvas : Canvas
+    public class MovementCreationCanvas : GraphCanvas
     {
         public MovementCreationCanvas(PictureBox pictureBox) : base(pictureBox) { }
 
@@ -28,7 +28,7 @@ namespace ViewingUtils.Canvases
             DrawBorders();
             DrawGraph();
 
-            PictureBoxOfImage?.Refresh();
+            PictureBox?.Refresh();
         }
 
         private void DrawBorders()

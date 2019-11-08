@@ -38,7 +38,7 @@ namespace TringoModel.DataProcessing.Mean
             if (!sensors.Any())
                 return false;
 
-            ISensorInfo sensorInfo = sensors.First().SensorInfo;
+            SensorInfo sensorInfo = sensors.First().SensorInfo;
 
             if (sensors.All(s => s.SensorInfo == sensorInfo))
                 return true;
@@ -59,7 +59,7 @@ namespace TringoModel.DataProcessing.Mean
 
         public IGraph EMG { get; }
 
-        public ISensorInfo SensorInfo { get; private set; }
+        public SensorInfo SensorInfo { get; private set; }
     }
 
     public class UncorrectSensorSetException : Exception { }

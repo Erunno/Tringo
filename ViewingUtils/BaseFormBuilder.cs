@@ -10,9 +10,9 @@ using ViewingUtils.Canvases;
 
 namespace ViewingUtils
 {
-    public class BaseFormBuilder<C> where C : Canvas
+    public class BaseFormBuilder<Canvas> where Canvas : GraphCanvas
     {
-        public BaseFormBuilder(IList<ISensor> sensors, FlowLayoutPanel flowLayoutPanel, ComboBox comboBox, CanvasProvider<C> canvasProvider)
+        public BaseFormBuilder(IList<ISensor> sensors, FlowLayoutPanel flowLayoutPanel, ComboBox comboBox, CanvasProvider<Canvas> canvasProvider)
         {
             this.sensors = sensors;
             components.ComboBox = comboBox;
@@ -23,60 +23,76 @@ namespace ViewingUtils
         IList<ISensor> sensors;
         FlowLayoutPanel flowLayoutPanel;
 
-        ComponentsContainer<C> components = new ComponentsContainer<C>();
-        CanvasProvider<C> canvasProvider;
+        ComponentsContainer<Canvas> components = new ComponentsContainer<Canvas>();
+        CanvasProvider<Canvas> canvasProvider;
 
-        public ComponentsContainer<C> GetInicializedComponents(int widthOfCanvas)
+        public ComponentsContainer<Canvas> GetInicializedComponents(int widthOfCanvas)
         {
-            CreatePictureBox();
-            CreateCanvas(widthOfCanvas);
+            CreateSensorCanvas(widthOfCanvas);
             ConfigureFlowLayoutPanel();
             CreateComboBoxManager();
 
             return components;
         }
 
-        private void CreatePictureBox()
+        private IPictureBoxes GetPictureBoxes()
         {
-            components.PictureBox = new PictureBox();
-            components.PictureBox.SizeMode = PictureBoxSizeMode.AutoSize;
+            SimplePictureBoxes simplePictureBoxes = new SimplePictureBoxes();
+
+            simplePictureBoxes.EMG = GetNewPictureBox();
+            simplePictureBoxes.X = GetNewPictureBox();
+            simplePictureBoxes.Y = GetNewPictureBox();
+            simplePictureBoxes.Z = GetNewPictureBox();
+
+            return simplePictureBoxes;
         }
 
-        private void CreateCanvas(int width)
+        private PictureBox GetNewPictureBox()
         {
-            C canvas = canvasProvider(components.PictureBox);
+            PictureBox pb = new PictureBox();
+            pb.SizeMode = PictureBoxSizeMode.AutoSize;
 
-            int sizeOfSlider = 25;
+            return pb;
+        }
 
-            canvas.SetImage(new Size(
+        private void CreateSensorCanvas(int width)
+        {
+            components.SensorCanvas = new SensorCanvas<Canvas>(
+                pictureBoxes: GetPictureBoxes(), 
+                canvasProvider);
+
+            int sizeOfSlider = 50;
+            int numOfCanvases = 4;
+            components.SensorCanvas.SetImage(new Size(
                 width: width,
-                height: flowLayoutPanel.Height - sizeOfSlider
+                height: (flowLayoutPanel.Height - sizeOfSlider) / numOfCanvases
                 ));
-
-            components.Canvas = canvas;
         }
 
         private void ConfigureFlowLayoutPanel()
         {
             flowLayoutPanel.AutoScroll = true;
-            flowLayoutPanel.Controls.Add(components.PictureBox);
+
+            flowLayoutPanel.Controls.Add(components.SensorCanvas.GraphCanvases.EMG.PictureBox); //EMG
+            flowLayoutPanel.Controls.Add(components.SensorCanvas.GraphCanvases.X.PictureBox);   //X
+            flowLayoutPanel.Controls.Add(components.SensorCanvas.GraphCanvases.Y.PictureBox);   //Y
+            flowLayoutPanel.Controls.Add(components.SensorCanvas.GraphCanvases.Z.PictureBox);   //Z
         }
 
         private void CreateComboBoxManager()
         {
-            components.ComboBoxManager = new ComboBoxManager(
+            components.ComboBoxManager = new ComboBoxManager<Canvas>(
                 components.ComboBox,
-                components.Canvas,
+                components.SensorCanvas,
                 sensors);
         }
     }
 
-    public class ComponentsContainer<C> where C : Canvas
+    public class ComponentsContainer<Canvas> where Canvas : GraphCanvas
     {
-        public PictureBox PictureBox { get; set; }
-        public C Canvas { get; set; }
+        public SensorCanvas<Canvas> SensorCanvas { get; set; }
         public ComboBox ComboBox { get; set; }
-        public ComboBoxManager ComboBoxManager { get; set; }
+        public ComboBoxManager<Canvas> ComboBoxManager { get; set; }
     }
 
     public delegate C CanvasProvider<C>(PictureBox pictureBox);

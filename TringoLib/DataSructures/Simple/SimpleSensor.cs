@@ -17,6 +17,6 @@ namespace TringoModel.DataSructures
 
         public IGraph Z { get; set; }
 
-        public ISensorInfo SensorInfo { get; set; }
+        public SensorInfo SensorInfo { get; set; }
     }
 }

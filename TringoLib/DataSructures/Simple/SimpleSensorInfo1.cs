@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace TringoModel.DataSructures.Simple
 {
-    public class SensorInfo : ISensorInfo
+    public class SimpleSensorInfo : SensorInfo
     {
-        public SensorInfo(string name)
+        public SimpleSensorInfo(string name)
         {
             Name = name;
         }
 
-        public SensorInfo() { }
+        public SimpleSensorInfo() { }
 
-        public string Name { get; set; }
+        public override string Name { get; }
     }
 }

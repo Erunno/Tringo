@@ -43,11 +43,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseFormBuilder.cs" />
-    <Compile Include="Canvas\BasicCanvas.cs" />
-    <Compile Include="Canvas\MovementCreationCanvas.cs" />
+    <Compile Include="Canvases\BasicCanvas.cs" />
+    <Compile Include="Canvases\MovementCreationCanvas.cs" />
+    <Compile Include="Canvases\SingleGraphCanvas.cs" />
     <Compile Include="ComboBoxUtil.cs" />
     <Compile Include="GraphDrawer.cs" />
-    <Compile Include="Canvas\MultipleGraphsCanvas.cs" />
+    <Compile Include="Canvases\MultipleGraphsCanvas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SinGraph.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />

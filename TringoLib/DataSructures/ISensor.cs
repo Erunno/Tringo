@@ -13,11 +13,23 @@ namespace TringoModel.DataSructures
         IGraph Z { get; }
         IGraph EMG { get; }
 
-        ISensorInfo SensorInfo { get; }
+        SensorInfo SensorInfo { get; }
     }
 
-    public interface ISensorInfo
+    public abstract class SensorInfo
     {
-        string Name { get; }
+        abstract public string Name { get; }
+
+        public static bool operator ==(SensorInfo s1, SensorInfo s2)
+            => s1.Name == s2.Name;
+
+
+        public static bool operator !=(SensorInfo s1, SensorInfo s2)
+            => !(s1 == s2);
+
+        public override bool Equals(object obj)
+            => obj is SensorInfo && (SensorInfo)obj == this;
+
+        public override int GetHashCode() => Name.GetHashCode();
     }
 }

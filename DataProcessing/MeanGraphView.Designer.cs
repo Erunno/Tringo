@@ -48,7 +48,7 @@
             this.flowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.flowLayoutPanel.Location = new System.Drawing.Point(13, 101);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
-            this.flowLayoutPanel.Size = new System.Drawing.Size(1246, 586);
+            this.flowLayoutPanel.Size = new System.Drawing.Size(2435, 1169);
             this.flowLayoutPanel.TabIndex = 1;
             // 
             // lGraphsList
@@ -68,7 +68,7 @@
             this.bClose.FlatAppearance.BorderSize = 0;
             this.bClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bClose.ForeColor = System.Drawing.Color.Transparent;
-            this.bClose.Location = new System.Drawing.Point(1239, 12);
+            this.bClose.Location = new System.Drawing.Point(2428, 12);
             this.bClose.Name = "bClose";
             this.bClose.Size = new System.Drawing.Size(20, 20);
             this.bClose.TabIndex = 10;
@@ -80,7 +80,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(39)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(1271, 714);
+            this.ClientSize = new System.Drawing.Size(2460, 1282);
             this.Controls.Add(this.bClose);
             this.Controls.Add(this.lGraphsList);
             this.Controls.Add(this.flowLayoutPanel);
