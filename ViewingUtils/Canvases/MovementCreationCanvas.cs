@@ -23,8 +23,10 @@ namespace ViewingUtils.Canvases
         {
             ClearImage();
 
-            DrawIntervals();
+            graphDrawer.ComputeScaleForGraph(Graph);
+
             DrawGrid();
+            DrawIntervals();
             DrawBorders();
             DrawGraph();
 
@@ -93,15 +95,11 @@ namespace ViewingUtils.Canvases
         public void RefreshBorders()
         {
             RefreshAllComponents(); //TODO implement this
-            return;
-            throw new NotImplementedException();
         }
 
         public void RefreshIntervals()
         {
             RefreshAllComponents(); //TODO implement this
-            return;
-            throw new NotImplementedException();
         }
     }
 }

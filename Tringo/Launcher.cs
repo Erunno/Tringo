@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tringo.Monitor;
 using TringoModel.DataSructures;
+using TringoModel.DataSructures.Simple;
 using TringoModel.DataSructures.DataCache;
 using Tringo.TestGraphs;
 using TringoModel.DataProcessing.Mean;
@@ -17,6 +18,7 @@ using System.IO;
 using TringoModel.DataSructures.Interval;
 using MovementsCreation;
 using ViewingUtils;
+using MeanView;
 using DataProcessing;
 
 namespace Tringo
@@ -26,9 +28,39 @@ namespace Tringo
         public TringoApp()
         {
             InitializeComponent();
+
+            lwSensorsInfo.View = View.Details;
+
+            lwSensorsInfo.Columns.Add(new ColumnHeader());
+            lwSensorsInfo.Columns[0].Width = lwSensorsInfo.Width - 5;
+
+            //bring cursor to textbox
+            tbNewNameOfExperiment.Focus();
+            tbNewNameOfExperiment.TabIndex = 1;
         }
 
-        ISetOfSensors setOfSensors;
+        ISetOfExperiments experiments = new SimpleSetOfExperiments();
+        private void bCreateExperiment_Click(object sender, EventArgs e)
+        {
+            if (tbNewNameOfExperiment.Text.Length == 0)
+                return;
+
+            foreach (var exp in cbSelectedExperiment.Items)
+                if (((RawExperiment)exp).Name == tbNewNameOfExperiment.Text)
+                {
+                    MessageBox.Show($"Jméno \"{((RawExperiment)exp).Name}\" již existuje");
+                    return;
+                }
+
+            RawExperiment newExp = new RawExperiment(tbNewNameOfExperiment.Text);
+
+            cbSelectedExperiment.Items.Add(newExp);
+            cbSelectedExperiment.SelectedIndex = cbSelectedExperiment.Items.Count - 1;
+            
+            bLoading.Enabled = true;
+            bLoading.Focus();
+        }
+
         private void bLoading_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() != DialogResult.OK)
@@ -40,48 +72,103 @@ namespace Tringo
             if (!loadingForm.LoadingWasSuccesful || !loadingForm.LoadingIsDone)
                 return;
 
-            setOfSensors = loadingForm.Result;
+            RawExperiment selectedExperiment = (RawExperiment)cbSelectedExperiment.SelectedItem;
+
+            selectedExperiment.AppendNewData(loadingForm.Result);
             bCreateMovements.Enabled = true;
+            
+            RefreshListView();
         }
 
-        ISetOfMovements setOfMovements;
         private void bCreateMovements_Click(object sender, EventArgs e)
         {
-            IMovementsCreationManager movCr = new FormMovementCreatorManager();
-            setOfMovements = movCr.CreateSetOfMovements(setOfSensors);
+            RawExperiment selectedExp = (RawExperiment)cbSelectedExperiment.SelectedItem;
 
-            bMeanComputation.Enabled = bVariationStatistics.Enabled = setOfMovements != null && setOfMovements.Movements.Count != 0;
+            IMovementsCreationManager movCr = new FormMovementCreatorManager();
+            ISetOfMovements setOfMovements = movCr.CreateSetOfMovements(new SimpleSetOfSensors(selectedExp.SensorData));
+
+            if (setOfMovements == null) //user hasnt created set of movements
+                return;
+            
+            CreateOrReplaceExperiment(setOfMovements);
+
+            bMeanComputation.Enabled = selectedExp.MovementsCreated
+                = setOfMovements != null && setOfMovements.Movements.Count != 0;
+
+            RefreshComboBox();
+        }
+
+
+        private void CreateOrReplaceExperiment(ISetOfMovements setOfMovements)
+        {
+            string newName = ((RawExperiment)cbSelectedExperiment.SelectedItem).Name;
+
+            for (int i = 0; i < experiments.Experiments.Count; i++)
+                if(experiments.Experiments[i].Name == newName) //experiment already exists
+                {
+                    experiments.Experiments.RemoveAt(i);
+                    continue;
+                }
+
+            experiments.Experiments.Add(new SimpleExperiment(newName, setOfMovements.Movements));
         }
 
         private void bMeanComputation_Click(object sender, EventArgs e)
         {
-            IMovement mean = GetMeanMovement();
+            //TODO add check
+            IExperiment mean = new MeanExperiment(experiments);
 
-            MeanGraphView form = new MeanGraphView(mean, setOfMovements);
-            form.ShowDialog();
-        }
+            cbChangeColor meanExperimentView = new cbChangeColor(mean, experiments);
 
-        private void bVariationStatistics_Click(object sender, EventArgs e)
-        {
-            VarianceCalculator calc = new VarianceCalculator(samplingFrequency: 500); // TODO discuss
-            IMovement mean = GetMeanMovement();
-
-            IVarinceData data = calc.CompudeVariance(mean, setOfMovements);
-
-            MessageBox.Show(data.ToString());
-        }
-
-        private IMovement GetMeanMovement()
-        {
-            MeanMovementManager meanMovementManager = new MeanMovementManager(setOfMovements);
-            IMovement mean = meanMovementManager.GetMeanMovement();
-
-            return mean;
+            meanExperimentView.ShowDialog();
         }
 
         private void bClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void cbSelectedExperiment_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RawExperiment selectedExp = (RawExperiment)cbSelectedExperiment.SelectedItem;
+
+            bCreateMovements.Enabled = selectedExp.SensorData.Count > 0;
+            bMeanComputation.Enabled = selectedExp.MovementsCreated;
+
+            RefreshListView();
+        }
+
+
+        private void RefreshComboBox() //TODO try to do it better
+        {
+            int selectedItemIndex = cbSelectedExperiment.SelectedIndex;
+
+            List<object> items = new List<object>();
+
+            foreach (var item in cbSelectedExperiment.Items)
+                items.Add(item);
+
+            cbSelectedExperiment.Items.Clear();
+
+            foreach (var item in items)
+                cbSelectedExperiment.Items.Add(item);
+
+            cbSelectedExperiment.SelectedIndex = selectedItemIndex;
+        }
+
+        private void RefreshListView()
+        {
+            RawExperiment selectedExp = (RawExperiment)cbSelectedExperiment.SelectedItem;
+
+            lwSensorsInfo.Items.Clear();
+            foreach (var sensorInfo in from sensor in selectedExp.SensorData select sensor.SensorInfo)
+                lwSensorsInfo.Items.Add(sensorInfo.ToString());
+        }
+
+        private void tbNewNameOfExperiment_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+                bCreateExperiment_Click(sender, e);
         }
     }
 }

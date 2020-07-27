@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 
 namespace TringoModel.DataSructures.Simple
 {
-    public class SimpleSetOfSensors : ISetOfSensors
+    public class SimpleSensorInfo : SensorInfo
     {
-        public SimpleSetOfSensors(IList<ISensor> sensors)
+        public SimpleSensorInfo(string name)
         {
-            this.Sensors = sensors;
+            Name = name;
         }
 
-        public IList<ISensor> Sensors { get; set; }
-    }
+        public SimpleSensorInfo() { }
 
+        public override string Name { get; }
+
+        public override string ToString() => Name;
+    }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using TringoModel.DataSructures;
 using TringoModel.DataSructures.Simple;
+using System.Globalization;
 
 namespace DataLoading
 {
@@ -73,12 +74,13 @@ namespace DataLoading
         }
 
         readonly string SamplingFequencyLabel = "Sampling frequency: ";
+        private IFormatProvider formatProvider { get; } = CultureInfo.GetCultureInfo("en-US").NumberFormat;
         private double GetSamplingFrequencyOfGraph()
         {
             int startIndex = currLine.GetStartIndexOf(SamplingFequencyLabel) + SamplingFequencyLabel.Length;
 
             string freqString = GetWord(startIndex, boundaryChar: ' ');
-            double freq = double.Parse(freqString);
+            double freq = double.Parse(freqString, formatProvider);
 
             return freq;
         }
@@ -134,7 +136,7 @@ namespace DataLoading
 
             for (int i = 0; i < samplesStrings.Length; i++)
                 if (samplesStrings[i] != "")
-                    LineOfSamples[i] = double.Parse(samplesStrings[i]);
+                    LineOfSamples[i] = double.Parse(samplesStrings[i], formatProvider);
                 else
                     LineOfSamples[i] = null;
         }

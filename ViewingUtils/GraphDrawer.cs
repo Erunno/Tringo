@@ -27,6 +27,18 @@ namespace ViewingUtils
 
         public void DrawGraphAutoscale(IGraph graph)
         {
+            CachedGraph cachedGraph = ComputeScaleAndGetCachedGraphFor(graph);
+            DrawGraph(cachedGraph);
+        }
+
+        public void ComputeScaleForGraph(IGraph graph)
+        {
+            double freq = 1 / GetSizeOfOneStep(graph);
+            Scale = graph.GetScale(freq);
+        }
+
+        private CachedGraph ComputeScaleAndGetCachedGraphFor(IGraph graph)
+        {
             double freq = 1 / GetSizeOfOneStep(graph);
             double correction = 0.01;
 
@@ -36,7 +48,7 @@ namespace ViewingUtils
                 MinValue: cachedGraph.MinValue * (1 + correction)
                 );
 
-            DrawGraph(cachedGraph);
+            return cachedGraph;
         }
 
         public void DrawGraph(IGraph graph)
@@ -60,7 +72,7 @@ namespace ViewingUtils
         }
 
         private int GetYPixel(double valueInX)
-            => baseBitmap.Height - (int)((valueInX - Scale.MinValue) / Scale.Size * baseBitmap.Height);
+            => Scale.GetYCoorForValue(valueInX, baseBitmap.Height);
 
         private bool IsInScale(int Ycoor)
             => 0 <= Ycoor && Ycoor < baseBitmap.Height;
@@ -86,6 +98,9 @@ namespace ViewingUtils
 
             Size = MaxValue - MinValue;
         }
+
+        public int GetYCoorForValue(double value, int heightOfPicture) 
+            => heightOfPicture - (int)((value - MinValue) / Size * heightOfPicture);
     }
 
     class UnvalidRangeException : Exception { }

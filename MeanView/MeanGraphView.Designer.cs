@@ -1,4 +1,4 @@
-﻿namespace ViewingUtils
+﻿namespace MeanView
 {
     partial class MeanGraphView
     {
@@ -58,9 +58,9 @@
             this.lGraphsList.ForeColor = System.Drawing.Color.Silver;
             this.lGraphsList.Location = new System.Drawing.Point(9, 27);
             this.lGraphsList.Name = "lGraphsList";
-            this.lGraphsList.Size = new System.Drawing.Size(233, 23);
+            this.lGraphsList.Size = new System.Drawing.Size(257, 23);
             this.lGraphsList.TabIndex = 9;
-            this.lGraphsList.Text = "Jméno prohlíženého grafu";
+            this.lGraphsList.Text = "Jméno prohlíženého senzoru";
             // 
             // bClose
             // 

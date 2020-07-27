@@ -15,6 +15,7 @@ namespace ViewingUtils.Canvases
         public GraphCanvas(PictureBox pictureBox)
         {
             PictureBox = pictureBox;
+            SetImage(pictureBox.Size);
         }
 
         public Bitmap BitmapImage { get; private set; }
@@ -35,18 +36,27 @@ namespace ViewingUtils.Canvases
 
         public IGraph Graph { get; set; }
 
-        public Scale Scale { get; set; }
+        public Scale Scale { get => graphDrawer.Scale; set => graphDrawer.Scale = value; }
         public bool AutoscaleGraph { get; set; } = true;
 
         protected GraphDrawer graphDrawer;
         protected Graphics graphics;
 
-        public Pen BordersPen { get; set; } = new Pen(Color.FromArgb(0, 255, 0));
-        public Pen GraphPen { get; set; } = new Pen(Color.FromArgb(255, 51, 51));
-        public Brush IntervalsBrush { get; set; } = new SolidBrush(Color.FromArgb(25, 0, 0, 255));
-        public Pen GridPen { get; set; } = new Pen(Color.FromArgb(25, 25, 25));
+        public Pen BordersPen { get; set; } = DefaultBordersPen;
+        public static Pen DefaultBordersPen { get; } = new Pen(Color.FromArgb(0, 255, 0));
 
-        public Brush BackgroudBrush { get; set; } = new SolidBrush(Color.FromArgb(20, 20, 20));
+        public Pen GraphPen { get; set; } = DefaultGraphPen;
+        public static Pen DefaultGraphPen { get; } = new Pen(Color.FromArgb(255, 51, 51));
+
+        public Brush IntervalsBrush { get; set; } = DefaultIntervalsBrush;
+        public static Brush DefaultIntervalsBrush { get; } = new SolidBrush(Color.FromArgb(25, 0, 0, 255));
+
+        public Pen GridPen { get; set; } = DefaultGridPen;
+        public static Pen DefaultGridPen { get; } = new Pen(Color.FromArgb(25, 25, 25));
+
+        public Brush BackgroudBrush { get; set; } = DefaultBackgroudBrush;
+        public static Brush DefaultBackgroudBrush { get; } = new SolidBrush(Color.FromArgb(20, 20, 20));
+
 
         virtual public void RefreshAllComponents()
         {
@@ -65,10 +75,7 @@ namespace ViewingUtils.Canvases
             if (AutoscaleGraph)
                 graphDrawer.DrawGraphAutoscale(Graph);
             else
-            {
-                graphDrawer.Scale = Scale;
                 graphDrawer.DrawGraph(Graph);
-            }
         }
 
         protected int GetXcoorForTime(double time)
@@ -85,6 +92,14 @@ namespace ViewingUtils.Canvases
 
         protected void DrawGrid()
         {
+            //horizontal zero line
+            int YcoorOfZero = Scale.GetYCoorForValue(value: 0, BitmapImage.Height);
+            graphics.DrawLine(GridPen, 
+                new Point(x: 0, y: YcoorOfZero), 
+                new Point(x: BitmapImage.Width - 1, y: YcoorOfZero)
+                );
+
+            //vertical line
             foreach (var gridLine in GetGridLines())
                 graphics.DrawLine(GridPen, gridLine.From, gridLine.To);
         }

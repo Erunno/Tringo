@@ -11,7 +11,7 @@ using TringoModel.DataSructures;
 using ViewingUtils;
 using ViewingUtils.Canvases;
 
-namespace ViewingUtils
+namespace MeanView
 {
     public partial class MeanGraphView : Form
     {
