@@ -86,7 +86,7 @@
             this.flowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.flowLayoutPanel.Location = new System.Drawing.Point(242, 38);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
-            this.flowLayoutPanel.Size = new System.Drawing.Size(2048, 1247);
+            this.flowLayoutPanel.Size = new System.Drawing.Size(1596, 902);
             this.flowLayoutPanel.TabIndex = 6;
             // 
             // cbListOfGraphs
@@ -94,7 +94,7 @@
             this.cbListOfGraphs.FormattingEnabled = true;
             this.cbListOfGraphs.Location = new System.Drawing.Point(12, 103);
             this.cbListOfGraphs.Name = "cbListOfGraphs";
-            this.cbListOfGraphs.Size = new System.Drawing.Size(224, 21);
+            this.cbListOfGraphs.Size = new System.Drawing.Size(224, 25);
             this.cbListOfGraphs.TabIndex = 7;
             this.cbListOfGraphs.SelectedIndexChanged += new System.EventHandler(this.cbListOfGraphs_SelectedIndexChanged);
             // 
@@ -105,7 +105,7 @@
             this.lGraphsList.ForeColor = System.Drawing.Color.Silver;
             this.lGraphsList.Location = new System.Drawing.Point(8, 76);
             this.lGraphsList.Name = "lGraphsList";
-            this.lGraphsList.Size = new System.Drawing.Size(233, 23);
+            this.lGraphsList.Size = new System.Drawing.Size(289, 29);
             this.lGraphsList.TabIndex = 8;
             this.lGraphsList.Text = "Jméno prohlíženého grafu";
             // 
@@ -115,7 +115,7 @@
             this.bFinish.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bFinish.Font = new System.Drawing.Font("Bahnschrift SemiBold", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bFinish.ForeColor = System.Drawing.Color.Silver;
-            this.bFinish.Location = new System.Drawing.Point(12, 1206);
+            this.bFinish.Location = new System.Drawing.Point(12, 861);
             this.bFinish.Name = "bFinish";
             this.bFinish.Size = new System.Drawing.Size(224, 79);
             this.bFinish.TabIndex = 9;
@@ -129,7 +129,7 @@
             this.bClose.FlatAppearance.BorderSize = 0;
             this.bClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bClose.ForeColor = System.Drawing.Color.Transparent;
-            this.bClose.Location = new System.Drawing.Point(2270, 12);
+            this.bClose.Location = new System.Drawing.Point(1818, 12);
             this.bClose.Name = "bClose";
             this.bClose.Size = new System.Drawing.Size(20, 20);
             this.bClose.TabIndex = 8;
@@ -138,10 +138,10 @@
             // 
             // MovementCreatorForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(39)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(2302, 1297);
+            this.ClientSize = new System.Drawing.Size(1850, 952);
             this.Controls.Add(this.bClose);
             this.Controls.Add(this.bFinish);
             this.Controls.Add(this.lGraphsList);

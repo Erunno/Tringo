@@ -116,11 +116,36 @@ namespace Tringo
         private void bMeanComputation_Click(object sender, EventArgs e)
         {
             //TODO add check
+
+            ShrinkExperimets();
             IExperiment mean = new MeanExperiment(experiments);
 
             cbChangeColor meanExperimentView = new cbChangeColor(mean, experiments);
 
             meanExperimentView.ShowDialog();
+        }
+
+        /// <summary>
+        /// Transforms 'experiments'.
+        /// Lot of movements -> one mean movement per experiment.
+        /// </summary>
+        private void ShrinkExperimets()
+        {
+            if (experiments.Experiments.All(exp => exp.Movements.Count == 1)) //every movement has exactly one movement --> no need to make mean
+                return;
+
+            var tmpExps = (
+                from exp in experiments.Experiments
+                select (IExperiment)new SimpleExperiment(
+                    exp.Name,
+                    new List<IMovement>() { new MeanMovement(exp.Movements)}
+                    )
+                ).ToList();
+
+            experiments = new SimpleSetOfExperiments()
+            {
+                Experiments = tmpExps
+            };
         }
 
         private void bClose_Click(object sender, EventArgs e)

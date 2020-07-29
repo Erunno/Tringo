@@ -41,7 +41,7 @@ namespace MeanView
             PictureBox pb = new PictureBox();
             pb.SizeMode = PictureBoxSizeMode.AutoSize;
             pb.Width = width;
-            pb.Height = basePanel.Height / 4 - 2;
+            pb.Height = basePanel.Height / 4 - pb.Margin.Top * 3;
             
             basePanel.Controls.Add(pb);
 
@@ -69,6 +69,20 @@ namespace MeanView
             }
         }
 
+        public Color ColorOfDiffGraph
+        {
+            get => EMG.DiffGraphPen.Color;
+            set
+            {
+                Pen p = new Pen(value);
+
+                EMG.DiffGraphPen = p;
+                X.DiffGraphPen = p;
+                Y.DiffGraphPen = p;
+                Z.DiffGraphPen = p;
+            }
+        }
+
         public bool ShowMainGraph { 
             get => EMG.DrawMainGraph;
             set {
@@ -79,22 +93,37 @@ namespace MeanView
             }
         }
 
+        public bool ShowDiffGraph
+        {
+            get => EMG.DrawDiffGraphIfPossible;
+            set
+            {
+                EMG.DrawDiffGraphIfPossible = value;
+                X.DrawDiffGraphIfPossible = value;
+                Y.DrawDiffGraphIfPossible = value;
+                Z.DrawDiffGraphIfPossible = value;
+            }
+        }
+
         public List<Color> ColorsForMinorGraphs { get; } = new List<Color>();
         public List<int> IgnoredMinorGraphs { get; } = new List<int>();
         public void DrawSensor(ISensor sensor, IEnumerable<ISensor> minorSensors)
         {
-            DrawGraph(EMG, sensor.EMG, ExtractMinorGraphs(minorSensors, s => s.EMG));
-            DrawGraph(X, sensor.X, ExtractMinorGraphs(minorSensors, s => s.X));
-            DrawGraph(Y, sensor.Y, ExtractMinorGraphs(minorSensors, s => s.Y));
-            DrawGraph(Z, sensor.Z, ExtractMinorGraphs(minorSensors, s => s.Z));
+            DrawGraph(EMG, sensor.EMG, ExtractMinorGraphs(minorSensors, s => s.EMG), sensor.SensorInfo.Name + " - EMG");
+            DrawGraph(X, sensor.X, ExtractMinorGraphs(minorSensors, s => s.X), sensor.SensorInfo.Name + " - X");
+            DrawGraph(Y, sensor.Y, ExtractMinorGraphs(minorSensors, s => s.Y), sensor.SensorInfo.Name + " - Y");
+            DrawGraph(Z, sensor.Z, ExtractMinorGraphs(minorSensors, s => s.Z), sensor.SensorInfo.Name + " - Z");
         }
 
-        private void DrawGraph(MultipleGraphsCanvas canvas, IGraph graph, IEnumerable<IGraph> minorGraphs)
+        private void DrawGraph(MultipleGraphsCanvas canvas, IGraph graph, IEnumerable<IGraph> minorGraphs, string label)
         {
             canvas.Graph = graph;
             canvas.MinorGraphs = minorGraphs;
 
+            canvas.GraphLabel = label;
+
             canvas.RefreshAllComponents();
+            canvas.GraphLabel = null;
         }
 
         private IEnumerable<IGraph> ExtractMinorGraphs(IEnumerable<ISensor> sensors, Func<ISensor, IGraph> graphProvider)

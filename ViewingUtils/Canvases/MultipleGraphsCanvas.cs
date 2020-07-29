@@ -7,6 +7,9 @@ using System.Windows.Forms;
 using TringoModel.DataSructures;
 using System.Drawing;
 using ViewingUtils;
+using System.Xml.Schema;
+using TringoModel.DataProcessing.Arithmetics;
+using TringoLib.DataProcessing.Arithmetics;
 
 namespace ViewingUtils.Canvases
 {
@@ -20,15 +23,25 @@ namespace ViewingUtils.Canvases
         
         public static Pen DefaultMinorGraphPen { get; } = new Pen(Color.FromArgb(40, 40, 40));
 
+        public Pen DiffGraphPen { get; set; } = DefaultDiffGraphPen;
+        public static Pen DefaultDiffGraphPen { get; set; } = new Pen(Color.Aqua);
+
+        public string GraphLabel { get; set; }
+
         public override void RefreshAllComponents()
         {
-            ClearImage();
-            DrawGrid();
-
             if (AutoscaleGraph)
                 Scale = GetScale();
 
+            ClearImage();
+            DrawGrid();
+
+            if(GraphLabel != null)
+                DrawLabel(GraphLabel);
+
             DrawMinorGraphs();
+
+            DrawDiffGraph();
 
             if (DrawMainGraph)
             {
@@ -44,20 +57,32 @@ namespace ViewingUtils.Canvases
 
         private void DrawMinorGraphs()
         {
-            int i = -1;
-
-            foreach (var mGraph in MinorGraphs)
+            foreach (var mGraphAndPen in MinorGraphsToBeDrawnAndItsPen)
             {
-                i++;
-                if (IgnoredMinorGraphs != null && IgnoredMinorGraphs.Exists(index => index == i))
-                    continue;
+                graphDrawer.GraphPen = mGraphAndPen.Item2;
+                graphDrawer.DrawGraph(mGraphAndPen.Item1);
+            }
+        }
 
-                graphDrawer.GraphPen = GetNextPen(i);
-                graphDrawer.DrawGraph(mGraph);
+        private IEnumerable<(IGraph, Pen)> MinorGraphsToBeDrawnAndItsPen
+        {
+            get
+            {
+                int i = -1;
+
+                foreach (var mGraph in MinorGraphs)
+                {
+                    i++;
+                    if (IgnoredMinorGraphs != null && IgnoredMinorGraphs.Exists(index => index == i))
+                        continue;
+
+                    yield return (mGraph, GetNextPen(i));
+                }
             }
         }
 
         public bool DrawMainGraph { get; set; } = true;
+        public bool DrawDiffGraphIfPossible { get; set; } = true;
 
         private Scale GetScale()
         {
@@ -70,10 +95,15 @@ namespace ViewingUtils.Canvases
             if (DrawMainGraph)
                 allScales.Add(Graph.GetScale(freq));
 
+            double maxValue = (from s in allScales select s.MaxValue).Max();
+            double minValue = (from s in allScales select s.MinValue).Min();
+
+            double zeroDelta = (maxValue - minValue) * 0.1;
+
             return new Scale(
-                MaxValue: (from s in allScales select s.MaxValue).Max(), 
-                MinValue: (from s in allScales select s.MinValue).Min()
-                );
+                MaxValue: Math.Max(0 + zeroDelta, maxValue),
+                MinValue: Math.Min(0 - zeroDelta, minValue)
+            );
         }
 
         private Pen GetNextPen(int indexOfMinorGraph)
@@ -83,6 +113,43 @@ namespace ViewingUtils.Canvases
 
             return new Pen(ColorsForMinorGraphs[indexOfMinorGraph]);
 
+        }
+
+        private void DrawDiffGraph()
+        {
+            if (!CanDrawDiffGraph()) 
+                return;
+
+            var saveScale = graphDrawer.Scale;
+            graphDrawer.Scale = GetScaleForDiffGraph();
+
+            var diffGraph = GetDiffGraph();
+
+            graphDrawer.GraphPen = DiffGraphPen;
+            graphDrawer.DrawGraph(diffGraph);
+
+            graphDrawer.Scale = saveScale;
+        }
+
+        private bool CanDrawDiffGraph()
+         => DrawDiffGraphIfPossible && MinorGraphsToBeDrawnAndItsPen.Count() == 2;
+
+        private Scale GetScaleForDiffGraph()
+        {
+            var zeroDelta = (Scale.MaxValue - Scale.MinValue) * 0.05;
+
+            return new Scale(
+                MaxValue: Scale.MaxValue - Scale.MinValue - zeroDelta,
+                MinValue: 0 - zeroDelta);
+        }
+
+        private IGraph GetDiffGraph()
+        {
+            var graphs = MinorGraphsToBeDrawnAndItsPen.Select(g => g.Item1).ToList();
+
+            return new TransformedGraph(
+                baseGraph: new DifferenceGraph(graphs[0], graphs[1]),
+                transformFunc: Math.Abs);
         }
     }
 }
