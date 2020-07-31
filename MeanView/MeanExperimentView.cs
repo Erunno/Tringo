@@ -41,6 +41,8 @@ namespace MeanView
         List<SensorVisualiser> sensorVisualisers;
         List<Control> oldPictures = new List<Control>();
 
+        double width, height, envelopWinSizeSec;
+
         bool ShouldDrawAllSensors => cbSensorSelection.SelectedIndex == cbSensorSelection.Items.Count - 1;
 
         private void FillComboBoxes()
@@ -58,20 +60,25 @@ namespace MeanView
             cbExperiments.Items.Add("<Rozdílový graf>");
         }
 
-        private int GraphWidth => Math.Max(0, flowLayoutPanel.Width - 15);
+        private int GraphWidth  => cbAutosize.Checked ? Math.Max(0, flowLayoutPanel.Width - 15) : (int)nWidth.Value;
+        private int GraphHeight => cbAutosize.Checked ? flowLayoutPanel.Height / 4 - 10 : (int)nHeight.Value;
+        private double EnvelopWinSize_sec => (double)nEnvelopWinSize.Value / 1000.0; //numbox is in ms
 
         private void CreateOrRefreshSensorVisualiser()
         {
             flowLayoutPanel.Controls.Clear();
             
             var oldVisualiser = sensorVisualiser;
-            sensorVisualiser = new SensorVisualiser(flowLayoutPanel, GraphWidth); //TODO add custom size
+            sensorVisualiser = new SensorVisualiser(flowLayoutPanel, GraphWidth, GraphHeight, EnvelopWinSize_sec); //TODO add custom size
 
             if(oldVisualiser == null)
                 for (int i = 0; i < baseExperiments.Experiments.Count; i++)
                     sensorVisualiser.ColorsForMinorGraphs.Add(MultipleGraphsCanvas.DefaultMinorGraphPen.Color);
             else
                 CopyVisualiser(oldVisualiser, sensorVisualiser);
+
+            nWidth.Value = GraphWidth;
+            nHeight.Value = GraphHeight;
         }
 
         private void CopyVisualiser(SensorVisualiser oldVisualiser, SensorVisualiser newVisualiser)
@@ -166,7 +173,7 @@ namespace MeanView
                 sensorVisualisers = new List<SensorVisualiser>();
 
                 for (int i = 0; i < baseExperiments.Experiments[0].Movements[0].Sensors.Count; i++)
-                    sensorVisualisers.Add(new SensorVisualiser(flowLayoutPanel, GraphWidth));
+                    sensorVisualisers.Add(new SensorVisualiser(flowLayoutPanel, GraphWidth, GraphHeight, EnvelopWinSize_sec));
             }
 
             foreach (var vis in sensorVisualisers)
@@ -256,6 +263,17 @@ namespace MeanView
             int newWidth = ClientSize.Width - flowLayoutPanel.Location.X - padding;
 
             flowLayoutPanel.Size = new Size(width: newWidth, height: newHeigth);
+        }
+
+        private void bApply_Click(object sender, EventArgs e)
+        {
+            CreateOrRefreshSensorVisualiser();
+            RefreshGraphs();
+        }
+
+        private void cbAutosize_CheckedChanged(object sender, EventArgs e)
+        {
+            nWidth.Enabled = nHeight.Enabled = !cbAutosize.Checked;
         }
 
         private void bExportInOne_Click(object sender, EventArgs e)

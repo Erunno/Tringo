@@ -15,7 +15,10 @@ namespace ViewingUtils.Canvases
 {
     public class MultipleGraphsCanvas : GraphCanvas
     {
-        public MultipleGraphsCanvas(PictureBox pictureBox) : base(pictureBox) { }
+        public MultipleGraphsCanvas(PictureBox pictureBox) : base(pictureBox) 
+        {
+            envelopeDrawer = new EnvelopeDrawer(BitmapImage);
+        }
 
         public IEnumerable<IGraph> MinorGraphs { get; set; } = new List<IGraph>();
 
@@ -28,10 +31,17 @@ namespace ViewingUtils.Canvases
 
         public string GraphLabel { get; set; }
 
+        public bool DrawEnvelopes { get; set; } = false;
+        public double EnvelopWinSize { get; set; }
+
         public override void RefreshAllComponents()
         {
             if (AutoscaleGraph)
-                Scale = GetScale();
+            {
+                var scale = GetScale();
+                envelopeDrawer.Scale = scale;
+                graphDrawer.Scale = scale;
+            }
 
             ClearImage();
             DrawGrid();
@@ -39,23 +49,40 @@ namespace ViewingUtils.Canvases
             if(GraphLabel != null)
                 DrawLabel(GraphLabel);
 
-            DrawMinorGraphs();
+            if (DrawEnvelopes)
+                RenderMinorEnvelopes();
+            else
+                RenderMinorGraphs();
 
             DrawDiffGraph();
 
             if (DrawMainGraph)
             {
                 graphDrawer.GraphPen = GraphPen;
-                graphDrawer.DrawGraph(Graph);
+                envelopeDrawer.EnvelopPen = GraphPen;
+
+                if (DrawEnvelopes)
+                    envelopeDrawer.DrawEnvelop(Graph, EnvelopWinSize);
+                else
+                    graphDrawer.DrawGraph(Graph);
             }
 
             PictureBox.Refresh();  
         }
 
+        private void RenderMinorEnvelopes()
+        {
+            foreach (var mGraphAndPen in MinorGraphsToBeDrawnAndItsPen)
+            {
+                envelopeDrawer.EnvelopPen = mGraphAndPen.Item2;
+                envelopeDrawer.DrawEnvelop(mGraphAndPen.Item1, EnvelopWinSize);
+            }
+        }
+
         public List<Color> ColorsForMinorGraphs { get; set; }
         public List<int> IgnoredMinorGraphs { get; set; }
 
-        private void DrawMinorGraphs()
+        private void RenderMinorGraphs()
         {
             foreach (var mGraphAndPen in MinorGraphsToBeDrawnAndItsPen)
             {

@@ -40,6 +40,7 @@ namespace ViewingUtils.Canvases
         public bool AutoscaleGraph { get; set; } = true;
 
         protected GraphDrawer graphDrawer;
+        protected EnvelopeDrawer envelopeDrawer;
         protected Graphics graphics;
 
         public Pen BordersPen { get; set; } = DefaultBordersPen;

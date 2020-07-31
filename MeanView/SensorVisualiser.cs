@@ -15,13 +15,16 @@ namespace MeanView
 {
     class SensorVisualiser
     {
-        public SensorVisualiser(FlowLayoutPanel basePanel, int widthOfGraphs)
+        public SensorVisualiser(FlowLayoutPanel basePanel, int widthOfGraphs, int heigthOfgraphs, double envelopWinSizeSec)
         {
             width = widthOfGraphs;
+            height = heigthOfgraphs;
 
             EMG = new MultipleGraphsCanvas(GetPictureBox(basePanel));
             EMG.ColorsForMinorGraphs = ColorsForMinorGraphs;
             EMG.IgnoredMinorGraphs = IgnoredMinorGraphs;
+            EMG.DrawEnvelopes = true;
+            EMG.EnvelopWinSize = envelopWinSizeSec;
             
             X = new MultipleGraphsCanvas(GetPictureBox(basePanel));
             X.ColorsForMinorGraphs = ColorsForMinorGraphs;
@@ -41,7 +44,7 @@ namespace MeanView
             PictureBox pb = new PictureBox();
             pb.SizeMode = PictureBoxSizeMode.AutoSize;
             pb.Width = width;
-            pb.Height = basePanel.Height / 4 - pb.Margin.Top * 3;
+            pb.Height = height; 
             
             basePanel.Controls.Add(pb);
 
@@ -49,6 +52,7 @@ namespace MeanView
         }
 
         private int width { get; }
+        private int height { get; }
 
         MultipleGraphsCanvas EMG;
         MultipleGraphsCanvas X;

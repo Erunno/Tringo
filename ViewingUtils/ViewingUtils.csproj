@@ -47,6 +47,7 @@
     <Compile Include="Canvases\MovementCreationCanvas.cs" />
     <Compile Include="Canvases\SingleGraphCanvas.cs" />
     <Compile Include="ComboBoxUtil.cs" />
+    <Compile Include="EnvelopeDrawer.cs" />
     <Compile Include="GraphDrawer.cs" />
     <Compile Include="Canvases\MultipleGraphsCanvas.cs" />
     <Compile Include="GraphExtensions.cs" />

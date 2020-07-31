@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="DataProcessing\Arithmetics\PlusMinus.cs" />
     <Compile Include="DataProcessing\Arithmetics\TransformedGraph.cs" />
+    <Compile Include="DataProcessing\EnvelopeGraph.cs" />
     <Compile Include="DataProcessing\IDataProcessor.cs" />
     <Compile Include="DataProcessing\Mean\MeanExperiment.cs" />
     <Compile Include="DataProcessing\Mean\MeanGraph.cs" />
