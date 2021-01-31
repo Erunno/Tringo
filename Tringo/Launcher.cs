@@ -66,18 +66,23 @@ namespace Tringo
             if (openFileDialog1.ShowDialog() != DialogResult.OK)
                 return;
 
-            LoadingVisualisation loadingForm = new LoadingVisualisation(openFileDialog1.FileName);
-            loadingForm.ShowDialog();
-
-            if (!loadingForm.LoadingWasSuccesful || !loadingForm.LoadingIsDone)
-                return;
+            bLoading.Enabled = false;
+            var result = ReadData(openFileDialog1.FileName);
+            bLoading.Enabled = true;
 
             RawExperiment selectedExperiment = (RawExperiment)cbSelectedExperiment.SelectedItem;
 
-            selectedExperiment.AppendNewData(loadingForm.Result);
-            bCreateMovements.Enabled = true;
+            selectedExperiment.AppendNewData(result);
+            bCreateMovements.Enabled = bCreateMovements.Enabled || result.Sensors.Count != 0;
             
             RefreshListView();
+        }
+
+        ILoadingManager loadingManager;
+        private ISetOfSensors ReadData(string dataPath)
+        {
+            loadingManager = new ExcelLoadingManagerV2(dataPath);
+            return loadingManager.LoadSensors();
         }
 
         private void bCreateMovements_Click(object sender, EventArgs e)

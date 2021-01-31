@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TringoModel.DataSructures;
+using TringoModel.DataSructures.DataCache;
+using TringoModel.DataSructures.Simple;
 
 namespace TringoLib.DataProcessing
 {
@@ -18,6 +20,9 @@ namespace TringoLib.DataProcessing
         {
             public double Time { get; set; }
             public double Value { get; set; }
+
+            public override string ToString()
+                => $"{"{"} Time={Time}, Value={Value} {"}"}";
         }
 
         public EnvelopeGraph(IGraph baseGraph, double windowSize, double samplingPeriod)
@@ -28,7 +33,7 @@ namespace TringoLib.DataProcessing
 
             Length = baseGraph.Length;
 
-            Fill(UppperVerticies, GetMax);
+            Fill(UpperVerticies, GetMax);
             Fill(LowerVerticies,  GetMin);
 
             baseGraph = null; //dont need reference any more --> preventing memory leaks
@@ -99,11 +104,11 @@ namespace TringoLib.DataProcessing
             return max;
         }
 
-        private List<Vertex> UppperVerticies { get; } = new List<Vertex>();
+        private List<Vertex> UpperVerticies { get; } = new List<Vertex>();
         private List<Vertex> LowerVerticies { get; } = new List<Vertex>();
 
         public double Length { get; }
-        public IEnumerable<Vertex> Upper => UppperVerticies;
+        public IEnumerable<Vertex> Upper => UpperVerticies;
         public IEnumerable<Vertex> Lower => LowerVerticies;
         public IEnumerable<Vertex> LowerReverse
         {
@@ -112,6 +117,49 @@ namespace TringoLib.DataProcessing
                 for (int i = 0; i < LowerVerticies.Count; i++)
                     yield return LowerVerticies[LowerVerticies.Count - i - 1];
             }
+        }
+
+        public IGraph GetAreaSumsGraph()
+        {
+            int upIndex = 0, downIndex = 0;
+            int samples =(int)(baseGraph.Length / samplingPeriod);
+
+            var dataPoints = new double[samples];
+
+            for (int i = 0; i < dataPoints.Length; i++)
+            {
+                var time = i * samplingPeriod;
+
+                if (UpperVerticies[upIndex + 1].Time < time)
+                    upIndex++;
+                if (LowerVerticies[downIndex + 1].Time < time)
+                    downIndex++;
+
+                var upValue   = GetValueFor(UpperVerticies[upIndex], UpperVerticies[upIndex + 1], time);
+                var downValue = GetValueFor(LowerVerticies[downIndex], LowerVerticies[downIndex + 1], time);
+
+                dataPoints[i] = upValue - downValue;
+            }
+
+            return new RawGraph(
+                new MutableGraphInfo
+                {
+                    Name = "",
+                    SamplesCount = dataPoints.Length,
+                    SamplingFrequency = 1 / samplingPeriod
+                },
+                dataPoints);
+        }
+
+        private double GetValueFor(Vertex from, Vertex to, double time)
+        {
+            if (to.Time == from.Time)
+                return (to.Value + from.Value) / 2;
+
+            double valueDifference = to.Value - from.Value;
+            double timeProgress = (time - from.Time) / (to.Time - from.Time);
+
+            return valueDifference * timeProgress + from.Value;
         }
     }
 }

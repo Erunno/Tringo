@@ -25,11 +25,13 @@ namespace ViewingUtils
         }
 
 
-        public void DrawEnvelop(IGraph graph, double windowsSize)
+        public EnvelopeGraph DrawEnvelop(IGraph graph, double windowsSize)
         {
             var samplingPeriod = graph.Length / bitmap.Width;
             var envelop = new EnvelopeGraph(graph, windowsSize, samplingPeriod);
             DrawEnvelop(envelop);
+
+            return envelop;
         }
 
         public void DrawEnvelop(EnvelopeGraph envelop)

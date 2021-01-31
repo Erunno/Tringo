@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using TringoModel.DataSructures;
 using System.IO;
 using TringoModel.DataSructures.Simple;
+using TringoModel.DataSructures.DataCache;
 
 namespace DataLoading
 {
     public interface ILoadingManager
     {
         ISetOfSensors LoadSensors();
+        double GetProgress();
     }
 
 
@@ -93,6 +95,8 @@ namespace DataLoading
 
             return true;
         }
+
+        public double GetProgress() => 0;
     }
 
     class UnvalidNumberOfGraphsException : Exception { }

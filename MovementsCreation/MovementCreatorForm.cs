@@ -23,12 +23,12 @@ namespace MovementsCreation
             InitializeComponent();
 
             sensors = sensorsToParse;
+            oldSize = this.Size;
 
-            CreateComponents();
-
-            CreateMovementsCreator();
-            CreateEventsManager();
+            RenderComponents();
         }
+
+        private Size oldSize;
 
         private ISetOfSensors sensors;
         private EventsManager eventsManager;
@@ -36,13 +36,33 @@ namespace MovementsCreation
 
         private ComponentsContainer<MovementCreationCanvas> externComponents;
 
+        private void RenderComponents()
+        {
+            int selected = cbListOfGraphs.SelectedIndex != -1
+                ? cbListOfGraphs.SelectedIndex
+                : 0;
+
+            CreateComponents();
+
+            CreateMovementsCreator();
+            CreateEventsManager();
+
+            cbListOfGraphs.SelectedIndex = selected;
+        }
+
         private void CreateComponents()
         {
+            flowLayoutPanel.Controls.Clear();
+            cbListOfGraphs.Items.Clear();
+
             var builder = new BaseFormBuilder<MovementCreationCanvas>(
                 sensors.Sensors, flowLayoutPanel, cbListOfGraphs,
                 pb => new MovementCreationCanvas(pb));
 
-            int width = 3 * flowLayoutPanel.Width; //TODO add custom size
+            decimal requstedWidth = graphWidh.Value;
+
+            int width = (int)(requstedWidth * flowLayoutPanel.Width - 10);
+            width = Math.Max(100, width); // min width is 100;
 
             externComponents = builder.GetInicializedComponents(width);
             externComponents.ComboBox.SelectedIndex = 0;
@@ -95,6 +115,39 @@ namespace MovementsCreation
         private void bClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void MovementCreatorForm_SizeChanged(object sender, EventArgs e)
+        {
+            timer1.Enabled = true;
+        }
+
+        private void ChangeSize()
+        {
+            int xDelta = this.Size.Width - oldSize.Width;
+            int yDelta = this.Size.Height - oldSize.Height;
+
+            oldSize = this.Size;
+
+            flowLayoutPanel.Size = new Size(
+                width: flowLayoutPanel.Size.Width + xDelta,
+                height: flowLayoutPanel.Size.Height + yDelta
+                );
+
+            bFinish.Top += yDelta;
+
+            RenderComponents();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            timer1.Enabled = false;
+            ChangeSize();
+        }
+
+        private void graphWidh_ValueChanged(object sender, EventArgs e)
+        {
+            RenderComponents();
         }
     }
 }

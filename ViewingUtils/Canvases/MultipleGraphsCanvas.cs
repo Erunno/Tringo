@@ -10,6 +10,7 @@ using ViewingUtils;
 using System.Xml.Schema;
 using TringoModel.DataProcessing.Arithmetics;
 using TringoLib.DataProcessing.Arithmetics;
+using TringoLib.DataProcessing;
 
 namespace ViewingUtils.Canvases
 {
@@ -70,12 +71,17 @@ namespace ViewingUtils.Canvases
             PictureBox.Refresh();  
         }
 
+        private List<EnvelopeGraph> envelopeGraphs = new List<EnvelopeGraph>();
+
         private void RenderMinorEnvelopes()
         {
+            envelopeGraphs.Clear();
+
             foreach (var mGraphAndPen in MinorGraphsToBeDrawnAndItsPen)
             {
                 envelopeDrawer.EnvelopPen = mGraphAndPen.Item2;
-                envelopeDrawer.DrawEnvelop(mGraphAndPen.Item1, EnvelopWinSize);
+                var usedEnvelopGraph = envelopeDrawer.DrawEnvelop(mGraphAndPen.Item1, EnvelopWinSize);
+                envelopeGraphs.Add(usedEnvelopGraph);
             }
         }
 
@@ -172,7 +178,12 @@ namespace ViewingUtils.Canvases
 
         private IGraph GetDiffGraph()
         {
-            var graphs = MinorGraphsToBeDrawnAndItsPen.Select(g => g.Item1).ToList();
+            List<IGraph> graphs;
+
+            if (DrawEnvelopes)
+                graphs = envelopeGraphs.Select(e => e.GetAreaSumsGraph()).ToList();
+            else
+                graphs = MinorGraphsToBeDrawnAndItsPen.Select(g => g.Item1).ToList();
 
             return new TransformedGraph(
                 baseGraph: new DifferenceGraph(graphs[0], graphs[1]),
