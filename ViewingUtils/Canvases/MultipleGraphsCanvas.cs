@@ -10,6 +10,8 @@ using ViewingUtils;
 using System.Xml.Schema;
 using TringoModel.DataProcessing.Arithmetics;
 using TringoLib.DataProcessing.Arithmetics;
+using TringoLib.DataProcessing;
+using DataProcessing;
 
 namespace ViewingUtils.Canvases
 {
@@ -55,6 +57,7 @@ namespace ViewingUtils.Canvases
                 RenderMinorGraphs();
 
             DrawDiffGraph();
+            DrawDiffGraphStats();
 
             if (DrawMainGraph)
             {
@@ -70,12 +73,32 @@ namespace ViewingUtils.Canvases
             PictureBox.Refresh();  
         }
 
+        private void DrawDiffGraphStats()
+        {
+            if (diffGraph == null)
+                return;
+
+            var stats = new DiffGraphInterpreter(numOfSamples: 10_000).GetStatsOf(diffGraph);
+
+            var statsString = $"suma (lin): {stats.SumUnderGraph}\n";
+            statsString    += $"suma (sq): {stats.RootedSqueredGraphSum}\n";
+
+            DrawStats(statsString);
+        }
+
+        private List<EnvelopeGraph> currentEnvelopes = new List<EnvelopeGraph>();
         private void RenderMinorEnvelopes()
         {
+            currentEnvelopes.Clear();
+
             foreach (var mGraphAndPen in MinorGraphsToBeDrawnAndItsPen)
             {
                 envelopeDrawer.EnvelopPen = mGraphAndPen.Item2;
                 envelopeDrawer.DrawEnvelop(mGraphAndPen.Item1, EnvelopWinSize);
+
+                currentEnvelopes.Add(envelopeDrawer.CurrentEvelope);
+                var usedEnvelopGraph = envelopeDrawer.DrawEnvelop(mGraphAndPen.Item1, EnvelopWinSize);
+                currentEnvelopes.Add(usedEnvelopGraph);
             }
         }
 
@@ -142,15 +165,18 @@ namespace ViewingUtils.Canvases
 
         }
 
+        private IGraph diffGraph;
         private void DrawDiffGraph()
         {
+            diffGraph = null;
+
             if (!CanDrawDiffGraph()) 
                 return;
 
             var saveScale = graphDrawer.Scale;
             graphDrawer.Scale = GetScaleForDiffGraph();
 
-            var diffGraph = GetDiffGraph();
+            ComputeDiffGraph();
 
             graphDrawer.GraphPen = DiffGraphPen;
             graphDrawer.DrawGraph(diffGraph);
@@ -170,13 +196,26 @@ namespace ViewingUtils.Canvases
                 MinValue: 0 - zeroDelta);
         }
 
-        private IGraph GetDiffGraph()
+        private void ComputeDiffGraph()
         {
-            var graphs = MinorGraphsToBeDrawnAndItsPen.Select(g => g.Item1).ToList();
+            List<IGraph> graphs;
 
-            return new TransformedGraph(
-                baseGraph: new DifferenceGraph(graphs[0], graphs[1]),
-                transformFunc: Math.Abs);
+            if (DrawEnvelopes)
+                graphs = currentEnvelopes.Select(e => e.GetAreaSumsGraph()).ToList();
+            else
+                graphs = MinorGraphsToBeDrawnAndItsPen.Select(g => g.Item1).ToList();
+
+            if (DrawEnvelopes)
+            {
+                var samplingPeriod = PictureBox.Image.Width / Math.Min(currentEnvelopes[0].Length, currentEnvelopes[1].Length);
+                diffGraph = new EnvelopeDifferenceGraph(currentEnvelopes[0], currentEnvelopes[1], samplingPeriod);
+            }
+            else
+            {
+                diffGraph = new TransformedGraph(
+                    baseGraph: new DifferenceGraph(graphs[0], graphs[1]),
+                    transformFunc: Math.Abs);
+            }
         }
     }
 }

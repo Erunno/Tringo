@@ -64,7 +64,7 @@
             this.bCreateMovements.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bCreateMovements.Font = new System.Drawing.Font("Bahnschrift SemiBold", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bCreateMovements.ForeColor = System.Drawing.Color.Gray;
-            this.bCreateMovements.Location = new System.Drawing.Point(12, 450);
+            this.bCreateMovements.Location = new System.Drawing.Point(12, 438);
             this.bCreateMovements.Name = "bCreateMovements";
             this.bCreateMovements.Size = new System.Drawing.Size(272, 85);
             this.bCreateMovements.TabIndex = 3;

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using TringoModel.DataSructures;
 using TringoModel.DataSructures.Simple;
 
-namespace DataLoading
+namespace TringoModel.DataSructures.DataCache
 {
-    class RawGraph : ValuesContainingGraph
+    public class RawGraph : ValuesContainingGraph
     {
         public RawGraph(IGraphInfo graphInfo, double[] values) : base(graphInfo, values) { }
 

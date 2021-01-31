@@ -39,7 +39,7 @@ namespace MeanView
         SensorVisualiser sensorVisualiser;
 
         List<SensorVisualiser> sensorVisualisers;
-        List<Control> oldPictures = new List<Control>();
+        List<Control> oldPictures { get; set; } = new List<Control>();
 
         double width, height, envelopWinSizeSec;
 
@@ -69,7 +69,7 @@ namespace MeanView
             flowLayoutPanel.Controls.Clear();
             
             var oldVisualiser = sensorVisualiser;
-            sensorVisualiser = new SensorVisualiser(flowLayoutPanel, GraphWidth, GraphHeight, EnvelopWinSize_sec); //TODO add custom size
+            sensorVisualiser = new SensorVisualiser(flowLayoutPanel, GraphWidth, GraphHeight, EnvelopWinSize_sec);
 
             if(oldVisualiser == null)
                 for (int i = 0; i < baseExperiments.Experiments.Count; i++)
@@ -160,21 +160,11 @@ namespace MeanView
 
         private void PrepareVisualisers()
         {
-            if(flowLayoutPanel.Controls.Count == 4) //only one sensor is visble
-            {
-                oldPictures.Clear();
-                for (int i = 0; i < flowLayoutPanel.Controls.Count; i++)
-                    oldPictures.Add(flowLayoutPanel.Controls[i]);
-            }
             flowLayoutPanel.Controls.Clear();
+            sensorVisualisers = new List<SensorVisualiser>();
 
-            if (sensorVisualisers == null)
-            {
-                sensorVisualisers = new List<SensorVisualiser>();
-
-                for (int i = 0; i < baseExperiments.Experiments[0].Movements[0].Sensors.Count; i++)
-                    sensorVisualisers.Add(new SensorVisualiser(flowLayoutPanel, GraphWidth, GraphHeight, EnvelopWinSize_sec));
-            }
+            for (int i = 0; i < baseExperiments.Experiments[0].Movements[0].Sensors.Count; i++)
+                sensorVisualisers.Add(new SensorVisualiser(flowLayoutPanel, GraphWidth, GraphHeight, EnvelopWinSize_sec));
 
             foreach (var vis in sensorVisualisers)
                 CopyVisualiser(oldVisualiser: sensorVisualiser, newVisualiser: vis);
@@ -199,7 +189,7 @@ namespace MeanView
 
             if (cbExperiments.SelectedIndex == cbExperiments.Items.Count - 2)
                 sensorVisualiser.ColorOfMainGraph = colorDialog1.Color;
-            if (cbExperiments.SelectedIndex == cbExperiments.Items.Count - 1)
+            else if (cbExperiments.SelectedIndex == cbExperiments.Items.Count - 1)
                 sensorVisualiser.ColorOfDiffGraph = colorDialog1.Color;
             else
                 sensorVisualiser.ColorsForMinorGraphs[cbExperiments.SelectedIndex] = colorDialog1.Color;

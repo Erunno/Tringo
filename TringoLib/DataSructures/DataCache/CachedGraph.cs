@@ -23,6 +23,21 @@ namespace TringoModel.DataSructures.DataCache
             CreateSamples(baseGraph);
         }
 
+        public CachedGraph(double[] samples, double samplingFrequency)
+        {
+            graphInfo = new MutableGraphInfo()
+            {
+                Name = "",
+                SamplesCount = samples.Length,
+                SamplingFrequency = samplingFrequency
+            };
+
+            this.samples = samples;
+
+            MaxValue = samples.Max();
+            MinValue = samples.Min();
+        }
+
         private void CreateGraphInfo(IGraph baseGraph, double samplingFrequency)
         {
             MutableGraphInfo newGraphInfo = new MutableGraphInfo();

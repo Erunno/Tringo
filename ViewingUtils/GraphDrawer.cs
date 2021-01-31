@@ -72,7 +72,18 @@ namespace ViewingUtils
         }
 
         private int GetYPixel(double valueInX)
-            => Scale.GetYCoorForValue(valueInX, baseBitmap.Height);
+            => GetYInBounds(Scale.GetYCoorForValue(valueInX, baseBitmap.Height));
+
+        private int GetYInBounds(int yCoor)
+        {
+            if (yCoor < 0)
+                return 0;
+
+            if (yCoor > baseBitmap.Height)
+                return baseBitmap.Height - 1;
+
+            return yCoor;
+        }
 
         private bool IsInScale(int Ycoor)
             => 0 <= Ycoor && Ycoor < baseBitmap.Height;

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using TringoModel.DataSructures;
+using TringoModel.DataSructures.DataCache;
 
 namespace DataLoading
 {

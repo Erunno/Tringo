@@ -52,6 +52,7 @@
     <Compile Include="DataProcessing\Normalization\NormalizedGraph.cs" />
     <Compile Include="DataProcessing\Normalization\NormalizedSetOfMovement.cs" />
     <Compile Include="DataSructures\DataCache\CachedGraph.cs" />
+    <Compile Include="DataSructures\DataCache\RawGraph.cs" />
     <Compile Include="DataSructures\IExperiment.cs" />
     <Compile Include="DataSructures\Interval\GraphInterval.cs" />
     <Compile Include="DataSructures\IGraphInfo.cs" />

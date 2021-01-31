@@ -25,15 +25,19 @@ namespace ViewingUtils
         }
 
 
-        public void DrawEnvelop(IGraph graph, double windowsSize)
+        public EnvelopeGraph DrawEnvelop(IGraph graph, double windowsSize)
         {
             var samplingPeriod = graph.Length / bitmap.Width;
             var envelop = new EnvelopeGraph(graph, windowsSize, samplingPeriod);
             DrawEnvelop(envelop);
+
+            return envelop;
         }
 
         public void DrawEnvelop(EnvelopeGraph envelop)
         {
+            CurrentEvelope = envelop;
+
             var points = GetPoints(envelop);
             var brush = new SolidBrush(Color.FromArgb(alpha: 100, EnvelopPen.Color));
             
@@ -54,5 +58,7 @@ namespace ViewingUtils
         private double GetXCoor(double graphLenght, double time)
             => bitmap.Width * time / graphLenght;
 
+
+        public EnvelopeGraph CurrentEvelope { get; private set; }
     }
 }

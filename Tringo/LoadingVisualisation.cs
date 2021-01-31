@@ -41,7 +41,6 @@ namespace Tringo
                 this.Close();
                 return;
             }
-
             loadingThread = new Thread(RunLoading);
             loadingThread.Start();
         }
@@ -62,7 +61,8 @@ namespace Tringo
 
         public void RunLoading()
         {
-            ILoadingManager loadingManager = new TextDataLoadingManager(textReader);
+            //ILoadingManager loadingManager = new TextDataLoadingManager(textReader);
+            ILoadingManager loadingManager = new ExcelLoadingManagerV2(dataPath);
             Result = loadingManager.LoadSensors();
             
             LoadingIsDone = true;
@@ -71,11 +71,11 @@ namespace Tringo
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (loadingThread != null && !loadingThread.IsAlive)
-                this.Close();
-
-            progressBar.Value = (int)(textReader.PercentageReaded * progressBar.Maximum);
-            progressBar.Refresh();
+            //if (loadingThread != null && !loadingThread.IsAlive)
+            //    this.Close();
+            //
+            //progressBar.Value = (int)(textReader.PercentageReaded * progressBar.Maximum);
+            //progressBar.Refresh();
 
         }
 

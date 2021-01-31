@@ -86,9 +86,18 @@ namespace ViewingUtils.Canvases
         {
             graphics.DrawString(
                 label, 
-                new Font(new FontFamily("Arial"), 16, FontStyle.Regular, GraphicsUnit.Pixel),
+                new Font(new FontFamily("Arial"), 12, FontStyle.Regular, GraphicsUnit.Pixel),
                 Brushes.White,
-                10, 10);
+                x: 10, y: 10);
+        }
+
+        protected void DrawStats(string data)
+        {
+            graphics.DrawString(
+                data,
+                new Font(new FontFamily("Arial"), 10, FontStyle.Regular, GraphicsUnit.Pixel),
+                Brushes.White,
+                x: 10, y: 30);
         }
 
         protected int GetXcoorForTime(double time)
