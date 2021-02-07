@@ -58,8 +58,8 @@ namespace ViewingUtils.Canvases
         public Pen ZeroLinePen { get; set; } = DefaultZeroLinePen;
         public static Pen DefaultZeroLinePen { get; } = new Pen(Color.FromArgb(180, 180, 180));
 
-        public Brush BackgroudBrush { get; set; } = DefaultBackgroudBrush;
-        public static Brush DefaultBackgroudBrush { get; } = new SolidBrush(Color.FromArgb(20, 20, 20));
+        public SolidBrush BackgroudBrush { get; set; } = DefaultBackgroudBrush;
+        public static SolidBrush DefaultBackgroudBrush { get; } = new SolidBrush(Color.FromArgb(20, 20, 20));
 
 
         virtual public void RefreshAllComponents()
@@ -84,10 +84,14 @@ namespace ViewingUtils.Canvases
 
         protected void DrawLabel(string label)
         {
+            var textBrush = BackgroudBrush.Color.GetBrightness() > .5
+                                ? Brushes.Black
+                                : Brushes.White;
+
             graphics.DrawString(
                 label, 
                 new Font(new FontFamily("Arial"), 16, FontStyle.Regular, GraphicsUnit.Pixel),
-                Brushes.White,
+                textBrush,
                 10, 10);
         }
 
@@ -99,7 +103,13 @@ namespace ViewingUtils.Canvases
             graphics.FillRectangle(
                 BackgroudBrush,
                 x: 0, y: 0,
-                width: BitmapImage.Width, height: BitmapImage.Width
+                width: BitmapImage.Width, height: BitmapImage.Height
+                );
+
+            graphics.DrawRectangle(
+                new Pen(DefaultBackgroudBrush.Color),
+                x: 0, y: 0,
+                width: BitmapImage.Width - 1, height: BitmapImage.Height - 1
                 );
         }
 
@@ -124,6 +134,15 @@ namespace ViewingUtils.Canvases
                     new Point(x: GetXcoorForTime(i), y: 0),
                     new Point(x: GetXcoorForTime(i), y: BitmapImage.Height
                     ));
+        }
+
+        protected void DrawStats(string data)
+        {
+            graphics.DrawString(
+                data,
+                new Font(new FontFamily("Arial"), 10, FontStyle.Regular, GraphicsUnit.Pixel),
+                Brushes.LightGray,
+                x: 10, y: 30);
         }
     }
 

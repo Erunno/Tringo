@@ -39,7 +39,7 @@ namespace Tringo
             tbNewNameOfExperiment.TabIndex = 1;
         }
 
-        ISetOfExperiments experiments = new SimpleSetOfExperiments();
+        SimpleSetOfExperiments experiments = new SimpleSetOfExperiments();
         private void bCreateExperiment_Click(object sender, EventArgs e)
         {
             if (tbNewNameOfExperiment.Text.Length == 0)
@@ -58,11 +58,13 @@ namespace Tringo
             cbSelectedExperiment.SelectedIndex = cbSelectedExperiment.Items.Count - 1;
             
             bLoading.Enabled = true;
+            bDeleteExp.Enabled = true;
             bLoading.Focus();
         }
 
         private void bLoading_Click(object sender, EventArgs e)
         {
+            openFileDialog1.Filter = "Excel Worksheets|*.xls;*.xlsx";
             if (openFileDialog1.ShowDialog() != DialogResult.OK)
                 return;
 
@@ -199,6 +201,33 @@ namespace Tringo
         {
             if(e.KeyCode == Keys.Enter)
                 bCreateExperiment_Click(sender, e);
+        }
+
+        private void bDeleteExp_Click(object sender, EventArgs e)
+        {
+            var expToRemove = ((RawExperiment)cbSelectedExperiment.SelectedItem);
+
+            var indexToRemove = experiments.Experiments.FindIndex(exp => exp.Name == expToRemove.Name);
+
+            if (indexToRemove != -1)
+                experiments.Experiments.RemoveAt(indexToRemove);
+
+            cbSelectedExperiment.Items.RemoveAt(cbSelectedExperiment.SelectedIndex);
+            
+            if(cbSelectedExperiment.Items.Count == 0)
+            {
+                cbSelectedExperiment.Text = "";
+                lwSensorsInfo.Items.Clear();
+
+                bCreateMovements.Enabled = false;
+                bDeleteExp.Enabled = false;
+                bMeanComputation.Enabled = false;
+                bLoading.Enabled = false;
+            }
+            else
+            {
+                cbSelectedExperiment.SelectedIndex = 0;
+            }
         }
     }
 }

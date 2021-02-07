@@ -87,6 +87,20 @@ namespace MeanView
             }
         }
 
+        public Color BackGroundColor
+        {
+            get => EMG.BackgroudBrush.Color;
+            set
+            {
+                SolidBrush b = new SolidBrush(value);
+
+                EMG.BackgroudBrush = b;
+                X.BackgroudBrush = b;
+                Y.BackgroudBrush = b;
+                Z.BackgroudBrush = b;
+            }
+        }
+
         public bool ShowMainGraph { 
             get => EMG.DrawMainGraph;
             set {

@@ -8,6 +8,8 @@ namespace TringoModel.DataSructures.Simple
 {
     public class SimpleSetOfExperiments : ISetOfExperiments
     {
-        public IList<IExperiment> Experiments { get; set; } = new List<IExperiment>();
+        public List<IExperiment> Experiments { get; set; } = new List<IExperiment>();
+
+        IList<IExperiment> ISetOfExperiments.Experiments => Experiments;
     }
 }

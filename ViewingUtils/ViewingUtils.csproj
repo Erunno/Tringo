@@ -56,6 +56,10 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataProcessing\DataProcessing.csproj">
+      <Project>{a2c83dfd-3545-403c-abd7-d5aaaefe78e9}</Project>
+      <Name>DataProcessing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TringoLib\TringoModel.csproj">
       <Project>{5e9e7113-8582-4def-9f7d-f4629f9012fb}</Project>
       <Name>TringoModel</Name>

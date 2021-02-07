@@ -30,6 +30,8 @@ namespace MeanView
             cbSensorSelection.SelectedIndex = 0;
             cbExperiments.SelectedIndex = 0;
 
+            bShowExperiment.Text = HideMinorGraph;
+
             cbChangeColor_Resize(null, null);
         }
 
@@ -86,6 +88,7 @@ namespace MeanView
             newVisualiser.ColorOfDiffGraph = oldVisualiser.ColorOfDiffGraph;
             newVisualiser.ColorOfMainGraph = oldVisualiser.ColorOfMainGraph;
             newVisualiser.ColorsForMinorGraphs.AddRange(oldVisualiser.ColorsForMinorGraphs);
+            newVisualiser.BackGroundColor = oldVisualiser.BackGroundColor;
         }
 
         private void cbSensorSelection_SelectedIndexChanged(object sender, EventArgs e)
@@ -102,6 +105,9 @@ namespace MeanView
         {
             if(ShouldDrawAllSensors)
             {
+                oldPictures.Clear();
+                oldPictures.AddRange(GetControls(flowLayoutPanel));
+
                 DrawAllSensors();
                 return;
             }
@@ -114,8 +120,7 @@ namespace MeanView
                 flowLayoutPanel.Controls.AddRange(oldPictures.ToArray());
                 oldPictures.Clear();
             }
-
-
+            
             int indexOfMovement = 0; //there is just one movement in every experiment
             int indexOfSensor = cbSensorSelection.SelectedIndex;
 
@@ -129,6 +134,12 @@ namespace MeanView
                 sensor: meanExperiment.Movements[indexOfMovement].Sensors[indexOfSensor], 
                 minorSensors: ExtractSensors(indexOfMovement, indexOfSensor)
                 );
+        }
+
+        private IEnumerable<Control> GetControls(FlowLayoutPanel panel)
+        {
+            foreach (var control in panel.Controls)
+                yield return (Control)control;
         }
 
         bool GetShowMeanGraph() => !sensorVisualiser.IgnoredMinorGraphs.Exists(index => index == cbExperiments.Items.Count - 2); //one before last index belogs to mean
@@ -168,6 +179,8 @@ namespace MeanView
 
             foreach (var vis in sensorVisualisers)
                 CopyVisualiser(oldVisualiser: sensorVisualiser, newVisualiser: vis);
+
+            sensorVisualisers.ForEach(vis => vis.BackGroundColor = backgroundColor);
         }
 
         private IEnumerable<ISensor> ExtractSensors(int indexOfMovement, int indexOfSensor)
@@ -210,6 +223,8 @@ namespace MeanView
 
             bChangeColor.Enabled = true;
             bShowExperiment.Enabled = true;
+
+            bShowExperiment.Refresh();
         }
 
         private void bShowExperiment_Click(object sender, EventArgs e)
@@ -230,6 +245,8 @@ namespace MeanView
 
         private void cbChangeColor_Resize(object sender, EventArgs e)
         {
+            CreateOrRefreshSensorVisualiser();
+
             if (ClientSize.Height == 0 && ClientSize.Width == 0)
                 return;
 
@@ -266,6 +283,20 @@ namespace MeanView
             nWidth.Enabled = nHeight.Enabled = !cbAutosize.Checked;
         }
 
+        private Color backgroundColor = GraphCanvas.DefaultBackgroudBrush.Color;
+        private void bChangeBackgroundColor_Click(object sender, EventArgs e)
+        {
+            if (colorDialog1.ShowDialog() != DialogResult.OK)
+                return;
+
+            backgroundColor = colorDialog1.Color;
+            
+            sensorVisualiser.BackGroundColor = backgroundColor;
+            sensorVisualisers?.ForEach(vis => vis.BackGroundColor = backgroundColor);
+
+            RefreshGraphs();
+        }
+
         private void bExportInOne_Click(object sender, EventArgs e)
         {
             if (saveFileDialog1.ShowDialog() != DialogResult.OK)
@@ -287,7 +318,14 @@ namespace MeanView
                 }
             }
 
-            result.Save(saveFileDialog1.FileName, ImageFormat.Png);
+            var fileName = GetFileNameWithSuffix(saveFileDialog1.FileName);
+            result.Save(fileName, ImageFormat.Png);
         }
+
+        private string GetFileNameWithSuffix(string fileName)
+            => fileName.Split('.').Last().ToLower() == ".png"
+                    ? fileName
+                    : fileName + ".png";
+        
     }
 }

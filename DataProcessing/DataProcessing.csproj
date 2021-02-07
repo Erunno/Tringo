@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AreaExtension.cs" />
     <Compile Include="ArrayExtensions.cs" />
+    <Compile Include="DiffGraphInterpreter.cs" />
     <Compile Include="MeanMovementManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VarianceCalculator.cs" />
@@ -53,10 +54,6 @@
     <ProjectReference Include="..\TringoLib\TringoModel.csproj">
       <Project>{5e9e7113-8582-4def-9f7d-f4629f9012fb}</Project>
       <Name>TringoModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ViewingUtils\ViewingUtils.csproj">
-      <Project>{0fa0394b-f38a-43ee-910a-4d4b2ba3fced}</Project>
-      <Name>ViewingUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

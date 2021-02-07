@@ -14,6 +14,8 @@ namespace TringoModel.DataSructures.Interval
             this.baseGraph = baseGraph;
             this.interval = interval;
 
+            toleratedLenght = baseGraph.Length * 1.001; // ~0.1% error can occure during division and multiplication
+
             if (!IntervalFitsToGraph())
                 throw new UnvalidIntervalProvidedException();
         }
@@ -24,9 +26,12 @@ namespace TringoModel.DataSructures.Interval
         private Interval interval { get; }
 
 
-        public double this[double time] => TimeIsInRange(time) ? baseGraph[time + interval.From] : throw new TimeOfRangeException();
+        public double this[double time] => TimeIsInRange(time) ? baseGraph[GetRealTime(time) + interval.From] : throw new TimeOfRangeException();
 
-        private bool TimeIsInRange(double time) => 0 <= time && time <= interval.Length;
+        private readonly double toleratedLenght;
+        private bool TimeIsInRange(double time) => 0 <= time && time <= toleratedLenght;
+
+        private double GetRealTime(double originalTime) => Math.Min(originalTime, toleratedLenght);
 
         public double Length => interval.Length;
     }

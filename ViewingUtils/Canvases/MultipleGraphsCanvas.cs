@@ -11,6 +11,7 @@ using System.Xml.Schema;
 using TringoModel.DataProcessing.Arithmetics;
 using TringoLib.DataProcessing.Arithmetics;
 using TringoLib.DataProcessing;
+using DataProcessing;
 
 namespace ViewingUtils.Canvases
 {
@@ -56,6 +57,7 @@ namespace ViewingUtils.Canvases
                 RenderMinorGraphs();
 
             DrawDiffGraph();
+            DrawDiffGraphStats();
 
             if (DrawMainGraph)
             {
@@ -69,6 +71,19 @@ namespace ViewingUtils.Canvases
             }
 
             PictureBox.Refresh();  
+        }
+
+        private void DrawDiffGraphStats()
+        {
+            if (diffGraph == null)
+                return;
+            
+            var stats = new DiffGraphInterpreter(numOfSamples: 10_000).GetStatsOf(diffGraph);
+            
+            var statsString = $"suma (lin): {stats.SumUnderGraph}\n";
+            statsString += $"suma (sq): {stats.RootedSqueredGraphSum}\n";
+            
+            DrawStats(statsString);
         }
 
         private List<EnvelopeGraph> envelopeGraphs = new List<EnvelopeGraph>();
@@ -148,6 +163,7 @@ namespace ViewingUtils.Canvases
 
         }
 
+        private IGraph diffGraph;
         private void DrawDiffGraph()
         {
             if (!CanDrawDiffGraph()) 
@@ -156,7 +172,7 @@ namespace ViewingUtils.Canvases
             var saveScale = graphDrawer.Scale;
             graphDrawer.Scale = GetScaleForDiffGraph();
 
-            var diffGraph = GetDiffGraph();
+            diffGraph = GetDiffGraph();
 
             graphDrawer.GraphPen = DiffGraphPen;
             graphDrawer.DrawGraph(diffGraph);

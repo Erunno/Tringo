@@ -48,6 +48,7 @@
             this.nWidth = new System.Windows.Forms.NumericUpDown();
             this.nHeight = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
+            this.bChangeBackgroundColor = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nEnvelopWinSize)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nWidth)).BeginInit();
@@ -59,7 +60,7 @@
             this.cbSensorSelection.FormattingEnabled = true;
             this.cbSensorSelection.Location = new System.Drawing.Point(14, 54);
             this.cbSensorSelection.Name = "cbSensorSelection";
-            this.cbSensorSelection.Size = new System.Drawing.Size(295, 21);
+            this.cbSensorSelection.Size = new System.Drawing.Size(193, 21);
             this.cbSensorSelection.TabIndex = 0;
             this.cbSensorSelection.SelectedIndexChanged += new System.EventHandler(this.cbSensorSelection_SelectedIndexChanged);
             // 
@@ -69,37 +70,37 @@
             this.flowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.flowLayoutPanel.Location = new System.Drawing.Point(13, 101);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
-            this.flowLayoutPanel.Size = new System.Drawing.Size(1460, 654);
+            this.flowLayoutPanel.Size = new System.Drawing.Size(1040, 533);
             this.flowLayoutPanel.TabIndex = 1;
             // 
             // lGraphsList
             // 
             this.lGraphsList.AutoSize = true;
-            this.lGraphsList.Font = new System.Drawing.Font("Bahnschrift SemiBold", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lGraphsList.Font = new System.Drawing.Font("Bahnschrift SemiBold", 11F);
             this.lGraphsList.ForeColor = System.Drawing.Color.Silver;
             this.lGraphsList.Location = new System.Drawing.Point(10, 28);
             this.lGraphsList.Name = "lGraphsList";
-            this.lGraphsList.Size = new System.Drawing.Size(253, 23);
+            this.lGraphsList.Size = new System.Drawing.Size(197, 18);
             this.lGraphsList.TabIndex = 9;
             this.lGraphsList.Text = "Jméno prohlíženého senzoru";
             // 
             // cbExperiments
             // 
             this.cbExperiments.FormattingEnabled = true;
-            this.cbExperiments.Location = new System.Drawing.Point(341, 53);
+            this.cbExperiments.Location = new System.Drawing.Point(239, 54);
             this.cbExperiments.Name = "cbExperiments";
-            this.cbExperiments.Size = new System.Drawing.Size(204, 21);
+            this.cbExperiments.Size = new System.Drawing.Size(143, 21);
             this.cbExperiments.TabIndex = 13;
             this.cbExperiments.SelectedIndexChanged += new System.EventHandler(this.cbExperiments_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Bahnschrift SemiBold", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Bahnschrift SemiBold", 11F);
             this.label2.ForeColor = System.Drawing.Color.Silver;
-            this.label2.Location = new System.Drawing.Point(337, 27);
+            this.label2.Location = new System.Drawing.Point(236, 28);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(107, 23);
+            this.label2.Size = new System.Drawing.Size(85, 18);
             this.label2.TabIndex = 14;
             this.label2.Text = "Experiment";
             // 
@@ -109,9 +110,9 @@
             this.bChangeColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bChangeColor.Font = new System.Drawing.Font("Bahnschrift SemiBold", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bChangeColor.ForeColor = System.Drawing.Color.Gray;
-            this.bChangeColor.Location = new System.Drawing.Point(551, 30);
+            this.bChangeColor.Location = new System.Drawing.Point(388, 19);
             this.bChangeColor.Name = "bChangeColor";
-            this.bChangeColor.Size = new System.Drawing.Size(103, 43);
+            this.bChangeColor.Size = new System.Drawing.Size(103, 30);
             this.bChangeColor.TabIndex = 15;
             this.bChangeColor.Text = "Změnit barvu";
             this.bChangeColor.UseVisualStyleBackColor = true;
@@ -123,9 +124,9 @@
             this.bShowExperiment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bShowExperiment.Font = new System.Drawing.Font("Bahnschrift SemiBold", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bShowExperiment.ForeColor = System.Drawing.Color.Gray;
-            this.bShowExperiment.Location = new System.Drawing.Point(660, 30);
+            this.bShowExperiment.Location = new System.Drawing.Point(388, 49);
             this.bShowExperiment.Name = "bShowExperiment";
-            this.bShowExperiment.Size = new System.Drawing.Size(103, 43);
+            this.bShowExperiment.Size = new System.Drawing.Size(103, 30);
             this.bShowExperiment.TabIndex = 17;
             this.bShowExperiment.Text = "Zobrazit/Nezobrozovat";
             this.bShowExperiment.UseVisualStyleBackColor = true;
@@ -136,9 +137,9 @@
             this.bExportInOne.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bExportInOne.Font = new System.Drawing.Font("Bahnschrift SemiBold", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bExportInOne.ForeColor = System.Drawing.Color.Gray;
-            this.bExportInOne.Location = new System.Drawing.Point(1302, 34);
+            this.bExportInOne.Location = new System.Drawing.Point(889, 51);
             this.bExportInOne.Name = "bExportInOne";
-            this.bExportInOne.Size = new System.Drawing.Size(171, 43);
+            this.bExportInOne.Size = new System.Drawing.Size(148, 43);
             this.bExportInOne.TabIndex = 18;
             this.bExportInOne.Text = "Exportovat jako PNG";
             this.bExportInOne.UseVisualStyleBackColor = true;
@@ -151,7 +152,7 @@
             0,
             0,
             0});
-            this.nEnvelopWinSize.Location = new System.Drawing.Point(183, 36);
+            this.nEnvelopWinSize.Location = new System.Drawing.Point(210, 21);
             this.nEnvelopWinSize.Maximum = new decimal(new int[] {
             5000,
             0,
@@ -176,7 +177,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Bahnschrift SemiBold", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Silver;
-            this.label1.Location = new System.Drawing.Point(180, 21);
+            this.label1.Location = new System.Drawing.Point(207, 5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(132, 13);
             this.label1.TabIndex = 20;
@@ -193,9 +194,9 @@
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.nEnvelopWinSize);
-            this.panel1.Location = new System.Drawing.Point(808, 12);
+            this.panel1.Location = new System.Drawing.Point(522, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(417, 83);
+            this.panel1.Size = new System.Drawing.Size(361, 83);
             this.panel1.TabIndex = 21;
             // 
             // bApply
@@ -203,9 +204,9 @@
             this.bApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bApply.Font = new System.Drawing.Font("Bahnschrift SemiBold", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bApply.ForeColor = System.Drawing.Color.Gray;
-            this.bApply.Location = new System.Drawing.Point(328, 21);
+            this.bApply.Location = new System.Drawing.Point(210, 46);
             this.bApply.Name = "bApply";
-            this.bApply.Size = new System.Drawing.Size(74, 43);
+            this.bApply.Size = new System.Drawing.Size(136, 32);
             this.bApply.TabIndex = 22;
             this.bApply.Text = "Aplikovat";
             this.bApply.UseVisualStyleBackColor = true;
@@ -303,12 +304,26 @@
             this.label3.TabIndex = 22;
             this.label3.Text = "Výška (px)";
             // 
+            // bChangeBackgroundColor
+            // 
+            this.bChangeBackgroundColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bChangeBackgroundColor.Font = new System.Drawing.Font("Bahnschrift SemiBold", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bChangeBackgroundColor.ForeColor = System.Drawing.Color.Gray;
+            this.bChangeBackgroundColor.Location = new System.Drawing.Point(889, 11);
+            this.bChangeBackgroundColor.Name = "bChangeBackgroundColor";
+            this.bChangeBackgroundColor.Size = new System.Drawing.Size(148, 43);
+            this.bChangeBackgroundColor.TabIndex = 22;
+            this.bChangeBackgroundColor.Text = "Změnit barvu pozadí";
+            this.bChangeBackgroundColor.UseVisualStyleBackColor = true;
+            this.bChangeBackgroundColor.Click += new System.EventHandler(this.bChangeBackgroundColor_Click);
+            // 
             // cbChangeColor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(39)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(1485, 765);
+            this.ClientSize = new System.Drawing.Size(1062, 646);
+            this.Controls.Add(this.bChangeBackgroundColor);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.bExportInOne);
             this.Controls.Add(this.bShowExperiment);
@@ -354,5 +369,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox cbAutosize;
         private System.Windows.Forms.Button bApply;
+        private System.Windows.Forms.Button bChangeBackgroundColor;
     }
 }
